@@ -5,7 +5,7 @@ detail: "A machine learning system that reads an ECG and flags what warrants a c
 status: 'live'
 statusLabel: 'v1 live at ecg.bentileo.tech'
 order: 1
-stack: 'Python · Poetry · Streamlit · nginx'
+stack: 'Python · scikit-learn · Streamlit · Supabase · nginx'
 data: 'PTB-XL — 21,799 clinical ECGs, 18,869 patients'
 period: '2026'
 repo: 'https://github.com/bentileo/ecg-afib'
@@ -138,3 +138,26 @@ ischemic ST changes and conduction disease.
 
 **Explainability.** Surface which features drove a prediction, so a clinician
 sees why a recording was flagged rather than trusting a probability.
+
+## What running this publicly required
+
+A model in a notebook has no attack surface. One accepting uploads on the open
+internet does, and closing it took as much thought as the model.
+
+Screening results are stored in Supabase, which means a credential ships inside
+the application and must be assumed public. So the database uses two keys rather
+than one: a publishable key with permission to insert a result and nothing else,
+and a secret key that reads them back. Streamlit renders on the server rather
+than in the browser, so the second key never reaches a client. The history view
+is additionally gated behind a password, and the database refuses reads from the
+public key even if the interface were bypassed.
+
+Uploads are bounded before any processing — file size, sample count, numeric
+content, and amplitude, each rejected with a message a person can act on rather
+than a stack trace. Inserts are rate limited, and a check constraint rejects
+values the model could not have produced.
+
+The waveform itself is never stored. It exists in memory for one screening and
+is discarded; only the outcome is recorded. The repository's
+[SECURITY.md](https://github.com/bentileo/ecg-afib/blob/main/SECURITY.md) states
+what this protects and, more usefully, what it does not.
