@@ -57,8 +57,8 @@ a { color: var(--signal); }
 nav {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  padding: 28px 0 24px;
+  align-items: flex-start;
+  padding: 28px 0 22px;
   border-bottom: 1px solid var(--rule);
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 14px;
