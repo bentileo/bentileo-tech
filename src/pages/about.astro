@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<Base
+  title={`About | ${SITE_TITLE}`}
+  description="Clinical exercise physiologist moving into data science."
+  active="about"
+>
+  <p class="eyebrow">About</p>
+  <h1>Leonardo Bentivoglio</h1>
+  <p class="lede">
+    I have watched several thousand hearts respond to stress, one treadmill at a
+    time. Somewhere in that repetition, the patterns started to look like data.
+  </p>
+
+  <h2 class="r">Experience</h2>
+
+  <div class="entry">
+    <div class="top">
+      <h3>Lead Clinical Exercise Physiologist</h3>
+      <span class="when">2022 &mdash; present</span>
+    </div>
+    <p class="where">UW Medicine</p>
+    <ul>
+      <li>Direct 600+ exercise stress echocardiograms and treadmill tests annually under ACSM and AHA protocols, including specialized protocols for cardiomyopathy, genetic heart disease, obstructive LVOT, and pacemaker mapping.</li>
+      <li>Interpret arrhythmias, dysrhythmias, and pacemaker responses, identifying contraindications in real time.</li>
+      <li>Analyze patient records for risk stratification and individualized exercise prescription; flag positive stress tests for expedited catheterization referral.</li>
+      <li>Led a quality improvement initiative translating ACSM guidelines into standardized, reproducible evaluation criteria, in collaboration with cardiologists and electrophysiologists.</li>
+      <li>Mentor and supervise clinical exercise physiology interns preparing for the ACSM-CEP examination.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="top">
+      <h3>Exercise Specialist II</h3>
+      <span class="when">2021 &mdash; 2022</span>
+    </div>
+    <p class="where">Island Hospital</p>
+    <ul>
+      <li>Delivered phased cardiac and pulmonary rehabilitation for high-risk populations including advanced heart failure (HFpEF and HFrEF), post-TAVR, NSTEMI and STEMI, COPD, and pulmonary fibrosis.</li>
+      <li>Supervised nuclear stress testing alongside treadmill protocols, identifying contraindications and maintaining protocol compliance.</li>
+      <li>Designed individualized exercise prescriptions optimizing functional outcomes and long-term chronic disease management.</li>
+    </ul>
+  </div>
+
+  <h2 class="r">Education</h2>
+  <div class="edu">
+    <span class="deg">M.S. Information Management &mdash; Data Science</span>
+    <span class="yr">Expected 2027</span>
+    <span class="inst">University of Washington</span>
+  </div>
+  <div class="edu">
+    <span class="deg">M.S. Clinical Exercise Physiology</span>
+    <span class="yr">2024</span>
+    <span class="inst">University of Mary &middot; Magna Cum Laude</span>
+  </div>
+  <div class="edu">
+    <span class="deg">B.S. Exercise Science</span>
+    <span class="yr">2020</span>
+    <span class="inst">Grand Canyon University &middot; Cum Laude</span>
+  </div>
+
+  <h2 class="r">Research</h2>
+  <div class="entry">
+    <div class="top">
+      <h3>ACSM-CEP Outcomes by Program Accreditation</h3>
+      <span class="when">Under review</span>
+    </div>
+    <p class="where">Master's thesis, University of Mary</p>
+    <ul>
+      <li>Led an IRB-approved, double-blind comparative study of certification exam pass rates between graduates of accredited and non-accredited programs.</li>
+      <li>Owned the full research lifecycle: study design, survey distribution, data collection, analysis, and manuscript.</li>
+      <li>Conducted linear regression and ANOVA with post-hoc testing, producing a benchmark dataset for program comparison.</li>
+    </ul>
+  </div>
+
+  <h2 class="r">Technical</h2>
+  <dl class="skills">
+    <dt>Languages</dt><dd>Python, SQL, R</dd>
+    <dt>ML and data</dt><dd>scikit-learn, pandas, NumPy, Matplotlib, seaborn</dd>
+    <dt>Engineering</dt><dd>Poetry, Git, pytest, CI/CD</dd>
+    <dt>Deployment</dt><dd>Linux server administration, nginx, systemd</dd>
+  </dl>
+
+  <h2 class="r">Certifications</h2>
+  <ul class="certs">
+    <li>ACSM Certified Clinical Exercise Physiologist</li>
+    <li>AHA Advanced Cardiovascular Life Support</li>
+    <li>Clinical Exercise Physiology Association</li>
+  </ul>
+
+  <h2 class="r">Languages</h2>
+  <p class="body">English, Spanish, and Portuguese &mdash; fluent in all three.</p>
+</Base>
+
+<style>
+  h2.r { margin: 52px 0 0; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+  .entry { margin: 26px 0 0; }
+  .entry .top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+  .entry h3 { font-size: 21px; font-weight: 700; margin: 0; line-height: 1.3; }
+  .entry .when {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px; color: var(--dim); white-space: nowrap;
+  }
+  .entry .where {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px; color: var(--signal); margin: 3px 0 0;
+  }
+  .entry ul { margin: 12px 0 0; padding-left: 20px; max-width: 62ch; }
+  .entry li { margin-bottom: 8px; font-size: 17px; }
+
+  .edu {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 4px 20px; margin: 22px 0 0; align-items: baseline;
+  }
+  .edu .deg { font-weight: 600; font-size: 18px; }
+  .edu .inst {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px; color: var(--dim); grid-column: 1;
+  }
+  .edu .yr {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px; color: var(--dim); grid-row: span 2; text-align: right;
+  }
+
+  dl.skills {
+    display: grid; grid-template-columns: auto 1fr; gap: 9px 22px;
+    font-family: 'Inter', system-ui, sans-serif; font-size: 14.5px; margin: 22px 0 0;
+  }
+  dl.skills dt { color: var(--dim); font-size: 13px; letter-spacing: .03em; }
+  dl.skills dd { margin: 0; }
+
+  ul.certs { margin: 20px 0 0; padding-left: 20px; font-size: 16.5px; }
+  ul.certs li { margin-bottom: 7px; }
+
+  @media (max-width: 600px) {
+    .entry .top { flex-direction: column; gap: 2px; }
+  }
+</style>
