@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Fetch the code
+      - uses: actions/checkout@v4
+
+      # 2. Set up Node, using the version pinned in .nvmrc
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      # 3. Install exactly what the lock file specifies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Type-check and build; a broken link or bad frontmatter fails here
+      - name: Build
+        run: npm run build
