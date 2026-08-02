@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import EcgStrip from '../components/EcgStrip.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Base from '../layouts/Base.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Base title={SITE_TITLE} description={SITE_DESCRIPTION} active="home">
+  <p class="eyebrow">Clinical exercise physiologist &middot; Data scientist</p>
+  <h1>Reading hearts, then teaching machines to.</h1>
+  <p class="lede">
+    I supervise several hundred cardiac stress tests a year and interpret the
+    ECGs that come out of them. These projects are what happens when that
+    clinical judgment meets code.
+  </p>
+
+  <EcgStrip />
+
+  <h2>Background</h2>
+  <p class="body">
+    I am an ACSM Certified Clinical Exercise Physiologist at UW Medicine, where I
+    direct exercise stress echocardiograms and treadmill tests for high-risk
+    cardiac patients. Day to day that means interpreting arrhythmias and
+    conduction abnormalities, screening for contraindications, and deciding in
+    real time whether a test continues.
+  </p>
+  <p class="body">
+    I hold a master's in clinical exercise physiology and am completing a
+    master's in information management with an emphasis in data science at the
+    University of Washington. The projects below are where clinical knowledge and
+    data science intersect. I understand these problems from the bedside, and I
+    am building the methods to solve them rigorously.
+  </p>
+
+  <h2>Projects</h2>
+  {projects.map((project) => <ProjectCard project={project} />)}
+</Base>
