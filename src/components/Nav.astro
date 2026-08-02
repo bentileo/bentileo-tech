@@ -1,0 +1,18 @@
+---
+import { SITE_TITLE } from '../consts';
+
+interface Props {
+  active?: 'home' | 'projects' | 'about';
+}
+
+const { active } = Astro.props;
+---
+
+<nav>
+  <span class="name"><a href="/">{SITE_TITLE}</a></span>
+  <span>
+    <a href="/" class={active === 'home' ? 'on' : undefined}>Home</a>
+    <a href="/projects/" class={active === 'projects' ? 'on' : undefined}>Projects</a>
+    <a href="/about/" class={active === 'about' ? 'on' : undefined}>About</a>
+  </span>
+</nav>

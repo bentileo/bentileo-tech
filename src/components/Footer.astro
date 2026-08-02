@@ -1,0 +1,25 @@
+---
+import { GITHUB_URL, LINKEDIN_URL, SITE_TITLE } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <span>&copy; {year} {SITE_TITLE}</span>
+  <span>
+    <a href={GITHUB_URL}>GitHub</a>
+    <a href={LINKEDIN_URL}>LinkedIn</a>
+    <a href="#" class="mail">Email</a>
+  </span>
+</footer>
+
+<script is:inline>
+  // Assembled at runtime so the address is not in the served HTML for scrapers.
+  (function () {
+    var user = 'leobentivoglio';
+    var domain = 'gmail.com';
+    document.querySelectorAll('a.mail').forEach(function (link) {
+      link.href = 'mailto:' + user + '@' + domain;
+    });
+  })();
+</script>
