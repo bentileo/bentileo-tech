@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  // The projects index shows the longer description.
+  long?: boolean;
+}
+
+const { project, long = false } = Astro.props;
+const { title, summary, detail, status, statusLabel, stack, data, period, demo } =
+  project.data;
+---
+
+<article class="card">
+  <h3><a href={`/projects/${project.id}/`}>{title}</a></h3>
+  <p>{long && detail ? detail : summary}</p>
+  <dl class="meta">
+    <dt>Status</dt>
+    <dd class={status === 'live' ? 'live' : undefined}>
+      {demo ? <a href={demo}>{statusLabel}</a> : statusLabel}
+    </dd>
+    <dt>Stack</dt>
+    <dd>{stack}</dd>
+    {data && (<><dt>Data</dt><dd>{data}</dd></>)}
+    {period && (<><dt>Period</dt><dd>{period}</dd></>)}
+  </dl>
+  {long && <a class="more" href={`/projects/${project.id}/`}>Read the write-up</a>}
+</article>
