@@ -36,10 +36,16 @@ status: 'live'          # live | building | planned
 statusLabel: 'v1 live at example.com'
 order: 3                # lower numbers appear first
 stack: 'Python · SQL'
-repo: 'https://github.com/...'
-demo: 'https://...'
+data: 'Dataset, size, source'     # optional
+scope: 'Geography or subject'     # optional
+period: '2026'                    # optional
+repo: 'https://github.com/...'    # optional
+demo: 'https://...'               # optional
 ---
 ```
+
+`status` drives the badge colour. When `demo` is present, the status label
+becomes a link to it, on both the cards and the write-up page.
 
 The body is Markdown. Inline HTML is allowed, and three helper classes are
 styled: `.note` for a highlighted callout, `.q` for a pull quote, and `.flow`
@@ -71,5 +77,7 @@ clinical red used on printed rhythm strips. The waveform on the homepage is
 generated from real P-QRS-T morphology rather than being decorative, and it
 respects `prefers-reduced-motion`.
 
-The email address is assembled by JavaScript at runtime, so it does not appear
-in the served HTML.
+Contact links appear twice, in the header beneath the name and again in the
+footer. The email address is assembled by JavaScript at runtime in both places,
+so it does not appear in the served HTML for scrapers that do not execute
+scripts.
