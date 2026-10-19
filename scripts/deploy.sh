@@ -24,8 +24,10 @@ if [ ! -f "${BUILD_DIR}/index.html" ]; then
     exit 1
 fi
 
-# 3. Copy to the server, deleting files that no longer exist locally
-rsync --archive --delete --compress --human-readable \
+# 3. Copy to the server, deleting files that no longer exist locally.
+#    --chmod makes every file world-readable on the server whatever its local
+#    permissions are, so nginx can serve it (owner-only files return 403).
+rsync --archive --delete --compress --human-readable --chmod=D755,F644 \
       "${BUILD_DIR}/" "${SERVER}:${REMOTE_PATH}/"
 
 echo "Deployed. https://bentileo.tech"
