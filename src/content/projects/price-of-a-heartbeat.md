@@ -1,106 +1,98 @@
 ---
 title: 'The Price of a Heartbeat'
-summary: 'Hospitals now publish what they charge. This project joins those rates to utilization data to estimate what cardiac diagnostics actually earn, and where hospitals negotiated below their peers.'
-detail: 'Hospitals must now publish their negotiated rates in a standardized format, but a rate alone cannot answer a revenue question — a high price on a procedure nobody orders is worth nothing. This project joins those rates to CMS utilization data to estimate what cardiac diagnostics actually earn across Washington State, and where hospitals negotiated below what regional peers secured.'
-status: 'building'
-statusLabel: 'In design'
+summary: 'What US insurers pay hospitals for cardiac rehab and stress testing, and what more patients and more sessions are worth to a program.'
+detail: 'Hospitals now publish their negotiated rates. I matched those contracts across more than 1,700 US hospital price files to CDC Medicare data on who starts and finishes cardiac rehab. Commercial plans pay Washington hospitals the second-highest rate in the country, yet Washington enrolls and retains fewer patients than most of the US. The dashboard turns that gap into dollars for any state, and forecasts a program from its own monthly numbers.'
+status: 'live'
+statusLabel: 'Beta dashboard live'
 order: 2
-stack: 'Python · SQL · Plotly'
-scope: 'Washington State · cardiac diagnostics'
+stack: 'Python · DuckDB · SQL · JavaScript'
+data: 'Hospital price transparency files (July 2026), CDC Atlas of Heart Disease and Stroke (Medicare, 2019–2020), CMS OPPS 2026'
+scope: 'United States, with Washington hospital detail · cardiac rehab and stress testing'
+period: '2026'
+repo: 'https://github.com/bentileo/price-of-a-heartbeat'
+demo: '/projects/price-of-a-heartbeat/dashboard/'
 ---
 
 ## Why this project
 
 The ECG toolkit answers a clinical question with a model. This project is the
-other half of the work: taking two messy public datasets, joining them, and
+other half of the work: taking messy public datasets, joining them, and
 answering a question a health system executive actually asks on a Monday morning.
 
 I have spent four years inside a cardiac service line. The questions asked in
 that room are financial as often as they are clinical. Which payers reimburse
-well for the tests we run? Are we performing procedures at rates below what
-comparable hospitals negotiated? Where is the gap between the care we deliver and
-the revenue it produces?
+well for the services we run? Are our contracts below what comparable hospitals
+negotiated? Where is the gap between the care we deliver and the revenue it
+produces?
 
-Those questions became answerable in a way they were not three years ago.
+I narrowed the work to the services a clinical exercise physiologist runs every
+day: cardiac rehab sessions and exercise, echo and nuclear stress testing.
 
-## The opening
+## What the dashboard shows
 
-Since 2021, hospitals have been required to publish their negotiated rates. Since
-April 2026, they must do so in a standardized machine-readable format, which for
-the first time makes rates comparable across institutions. Most hospitals now
-post something; considerably fewer post something usable.
+<div class="note"><strong>In Washington, the revenue gap is volume, not price.</strong>
+Commercial plans pay Washington hospitals well. Too few eligible patients start
+cardiac rehab, and too few finish it.</div>
 
-The result is one of the largest pricing datasets in American healthcare, and it
-is barely analyzed outside of consultancies. Published analysis has found
-negotiated rates for the same inpatient procedure varying by a ratio of roughly
-nine to one across the country, and different payers paying materially different
-amounts for the same procedure at the same hospital.
+- **Price.** Commercial plans pay Washington hospitals a typical **$363** for a
+  monitored cardiac rehab session, second among states with enough price files
+  to compare (Oregon is first at $382). The typical US commercial rate is $166.
+  Medicare and Medicare Advantage pay about $132.
+- **Enrollment.** In Washington's typical county, 32% of eligible Medicare
+  patients start cardiac rehab, against 36% nationally.
+- **Retention.** 26% of Washington starters finish all 36 sessions, against 33%
+  nationally. The average starter attends 23.5.
+- **What it is worth.** For every 100 eligible patients, a Washington program
+  brings in roughly $150,000 a year at a typical payer mix. Matching a
+  top-quarter US county on enrollment and attendance adds roughly $105,000.
 
-## The problem with rates alone
+The dashboard has three parts: a US map that compares states on price,
+enrollment, completion and unbilled sessions; a Washington view that places one
+hospital's contracts against its peers, insurer by insurer; and a program model
+that prices referral, enrollment and attendance improvements, or forecasts a
+program from its own monthly numbers.
 
-Price transparency files list what a hospital negotiated. They do not list how
-often the service was performed. Revenue is rate multiplied by volume, so rates
-by themselves cannot answer a revenue question — a high rate on a procedure
-nobody orders is worth nothing.
-
-<div class="note"><strong>This is the technical core of the project.</strong>
-Rates come from hospital transparency files; volumes come from CMS utilization
-data. Joining them means matching hospitals across two systems that identify
-facilities differently, and documenting honestly what fails to reconcile.</div>
-
-## Data
-
-| Source | Provides |
-| --- | --- |
-| Hospital price transparency files | Payer-specific negotiated rates by procedure code, standardized across roughly 5,000 hospitals |
-| CMS utilization and payment data | Service volumes and Medicare payment by provider and procedure |
-| CMS hospital cost reports (HCRIS) | Facility characteristics, payer mix, and operating margin for context |
-
-## The questions
-
-<p class="q">For a given cardiac diagnostic, how does one hospital's negotiated
-rate compare to the rates its regional peers secured from the same payer?</p>
-
-<p class="q">Which payers reimburse cardiac diagnostics well, and which reimburse
-poorly relative to the market?</p>
-
-<p class="q">Where volume is high and the negotiated rate sits below the regional
-median, how much revenue does that gap represent annually?</p>
-
-<p class="q">Do hospitals with weaker operating margins also negotiate weaker
-rates, or is rate negotiation independent of financial health?</p>
-
-## Approach
+## How it works
 
 <div class="flow">
-<b>Hospital transparency files</b> &nbsp;+&nbsp; <b>CMS utilization data</b><br>↓<br>
-<b>Match facilities</b> — NPI and CCN crosswalk, manual reconciliation<br>↓<br>
-<b>Filter to cardiac diagnostic codes</b> — echo, stress testing, catheterization<br>↓<br>
-<b>Estimate revenue</b> — rate × volume, by payer and facility<br>↓<br>
-<b>Benchmark against regional peers</b><br>↓<br>
-<b>Dashboard and written recommendation</b>
+<b>Hospital price files</b> — 1,700+ US hospitals, billions of rows<br>↓<br>
+<b>Keep commercial fee-schedule contracts</b> — plan names classified, physician fees and unit errors dropped<br>↓<br>
+<b>Match facilities to CMS</b> — 94 Washington facilities reviewed by hand; ERs and clinics rejected<br>↓<br>
+<b>Benchmark</b> — insurer × service × hospital type, each price file counted once<br>↓<br>
+<b>Join CDC Medicare data</b> — who starts, who finishes, sessions attended, by county<br>↓<br>
+<b>Dashboard and program model</b>
 </div>
 
-## Scope, deliberately narrow
+Price files carry no certification number, so every Washington facility was
+matched to its CMS record by name and address and checked by hand. Twenty of 94
+were rejected: freestanding emergency rooms, clinics, a psychiatric hospital,
+and two locations that one rural district's file lists by mistake.
 
-Washington State, cardiac diagnostics only. The dataset is national and the
-temptation is to analyze all of it, but a finished narrow analysis is worth more
-than an unfinished broad one — and a local scope means I can sanity-check the
-output against hospitals I know. If the model says a facility is underpaid for
-stress echocardiography, I can ask whether that is plausible.
+## What changed from the plan
+
+The original plan multiplied rates by CMS outpatient volumes. That file is now
+published by payment group rather than procedure code, and it leaves cardiac
+rehab out entirely, so per-hospital volumes are not available for free. The
+dashboard measures volume a different way, per 100 eligible patients from CDC
+data, and lets a program bring its own monthly numbers for a forecast.
 
 ## What the data cannot support
 
-- Transparency files cover hospital-based services only. Most healthcare
-  encounters happen elsewhere, so this is not a complete picture of a system's
-  revenue.
-- Rates are self-published and hospitals interpret the schema differently. Data
-  quality varies, and some files are compliant in name only.
-- Utilization data skews Medicare. Commercial volume must be estimated rather
-  than observed, and that assumption needs stating every time a number is quoted.
-- This estimates revenue. It does not estimate cost, so it cannot speak to margin.
+- A published rate is a contract term, not proof of what was paid or that the
+  service is offered.
+- Rates are self-published and hospitals interpret the schema differently. Some
+  states' rates are implausibly low, which points at filing practice rather
+  than payment.
+- The CDC publishes county figures only, so state values are the typical
+  county, not a patient-weighted average. They cover Medicare fee-for-service
+  patients in 2019–2020.
+- This estimates revenue. It does not estimate cost, so it cannot speak to
+  margin.
 
 ## Status
 
-In design. Data sources identified and limitations mapped; the facility join is
-the next problem to solve.
+Beta. Next: a second price snapshot to start a price time series, pulmonary
+rehab, and splitting results by hospital system.
+
+*I work at UW Medicine. Every input is public data, and UW Medicine facilities
+are not excluded.*
