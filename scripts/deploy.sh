@@ -24,10 +24,14 @@ if [ ! -f "${BUILD_DIR}/index.html" ]; then
     exit 1
 fi
 
-# 3. Copy to the server, deleting files that no longer exist locally.
-#    --chmod makes every file world-readable on the server whatever its local
-#    permissions are, so nginx can serve it (owner-only files return 403).
-rsync --archive --delete --compress --human-readable --chmod=D755,F644 \
+# 3. Make every built file world-readable (directories traversable), so nginx
+#    can serve it whatever the source files' permissions are. Owner-only files
+#    return 403. Done here rather than with rsync --chmod, which the rsync that
+#    ships with macOS does not support.
+chmod -R a+rX "${BUILD_DIR}"
+
+# 4. Copy to the server, deleting files that no longer exist locally
+rsync --archive --delete --compress --human-readable \
       "${BUILD_DIR}/" "${SERVER}:${REMOTE_PATH}/"
 
 echo "Deployed. https://bentileo.tech"
