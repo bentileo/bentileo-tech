@@ -13,13 +13,13 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'projects'>;
 
 const project = Astro.props;
-const { title, summary, status, statusLabel, stack, data, scope, period, repo, demo } =
+const { title, summary, status, statusLabel, data, scope, period, repo, demo } =
   project.data;
 const { Content } = await render(project);
 ---
 
-<Base title={`${title} | ${SITE_TITLE}`} description={summary} active="projects">
-  <a class="back" href="/projects/">&larr; Projects</a>
+<Base title={`${title} | ${SITE_TITLE}`} description={summary} active="home">
+  <a class="back" href="/">&larr; Home</a>
   <section class="sechead case">
     <p class="lab">{project.data.kicker ?? 'Project'}</p>
     <h1 class="display">{title}</h1>
@@ -28,7 +28,6 @@ const { Content } = await render(project);
 
   <div class="kpis metabox">
     <div class="kpi"><span class="lab">Status</span><span class={`s big ${status === 'live' ? 'live' : ''}`}>{statusLabel}</span></div>
-    <div class="kpi"><span class="lab">Stack</span><span class="s big">{stack}</span></div>
     {data && <div class="kpi"><span class="lab">Data</span><span class="s big">{data}</span></div>}
     {scope && <div class="kpi"><span class="lab">Scope</span><span class="s big">{scope}</span></div>}
     {period && <div class="kpi"><span class="lab">Period</span><span class="s big">{period}</span></div>}
@@ -36,7 +35,7 @@ const { Content } = await render(project);
 
   {(demo || repo) && (
     <div class="actions">
-      {demo && <a class="btn primary" href={demo}>Open the dashboard</a>}
+      {demo && <a class="btn primary" href={demo}>{project.data.demoLabel ?? 'Open'}</a>}
       {repo && <a class="btn" href={repo}>Source code</a>}
     </div>
   )}

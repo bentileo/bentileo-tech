@@ -1,10 +1,11 @@
 ---
 title: 'Cardiac Clinic Benchmark & Revenue Forecasting'
 kicker: 'Health economics · Forecasting'
-summary: 'What commercial insurers pay US hospitals for cardiac rehab, stress testing and echocardiography, state by state against Medicare, and what a clinic can forecast from it.'
-detail: 'Hospitals now publish the rates they negotiate with every insurer. I processed the files of 2,700 US hospitals for nine cardiac codes, cleaned them against the published literature, and built a dashboard that benchmarks every state against Medicare, shows whether expensive states are expensive across the board, and lets a clinic compare its own contract and monthly volumes to its state and project the next twelve months.'
+summary: 'What commercial insurers pay US hospitals for cardiac rehab, stress testing and echocardiography, state by state against Medicare.'
+detail: 'Hospitals now publish the rates they negotiate with every insurer. I processed the files of 2,700 US hospitals for nine cardiac codes, cleaned them against the published literature, and built an interactive map that benchmarks every state against Medicare for each service. State comparisons and a clinic revenue forecast are the next release.'
 status: 'live'
-statusLabel: 'Beta dashboard live'
+statusLabel: 'Dashboard live'
+demoLabel: 'Open the dashboard'
 order: 1
 stack: 'Python · DuckDB · SQL · JavaScript (SVG)'
 data: 'Hospital price-transparency files, 2,700+ hospitals, July 2026 snapshot · CMS OPPS 2026 · CDC Atlas of Heart Disease and Stroke'
@@ -28,26 +29,20 @@ vary by state, and what can a clinic do with that number?
 
 ## What the dashboard shows
 
-**Benchmark.** One tab per CPT code. A US map colors every state by its typical
-commercial rate (quintiles), with Medicare's rate as the reference. Click a
-state for its price, rank of 50, cash price, how many hospital files sit behind
-the figure, and where it falls on the national range.
+One tab per CPT code: cardiac rehab session, exercise stress test, stress echo,
+nuclear stress (single and complete study) and resting echo. A US map colors
+every state by its typical commercial rate in quintiles, with Medicare's
+national rate as the reference. Click a state for its price, rank of 50, cash
+price, how many hospital files sit behind the figure, and where it falls on
+the national range. Three figures sit above the map: the US median commercial
+price, Medicare's rate, and the percentage difference between them.
 
-**Compare.** A ranked bar chart of all 50 states against the Medicare line; a
-heatmap of every state's price-to-Medicare ratio across all services with a
-rank-correlation matrix answering whether a state that pays well for one
-cardiac service pays well for all (it does: the weakest pair of services still
-correlates above 0.5); and, for cardiac rehab, a quintile chart showing that the
-states paid the most enroll no more eligible patients than the states paid the
-least.
-
-**Your clinic.** Pick a state and get the descriptive statistics: lowest,
-quartiles, median, highest, where the state ranks. Enter your own contracted
-rate, monthly volume and Medicare share to see your annual revenue beside the
-same volume at the state's typical rate and at Medicare. Load your monthly
-history and the page fits a trend-plus-seasonality model, checks it on six
-held-out months, and projects twelve months with an 80% range. Your numbers
-never leave the browser.
+The current release is the benchmark map. The state comparison views (ranked
+bars, a cross-service heatmap with rank correlations, and an enrollment-by-price
+analysis for cardiac rehab) and the clinic module (descriptive statistics for
+your state, your contract against your state, and a twelve-month revenue
+forecast from your own monthly volumes) are built and will follow once the
+underlying data questions are settled.
 
 ## Headline numbers (US, median hospital, July 2026)
 
@@ -96,9 +91,7 @@ few percent, which is the check I trust most.
 A published rate is a contract term, not a paid claim; denials and patient
 cost-sharing are invisible. The lake is a single snapshot, so there is no
 price trend yet. No public source reports stress-test volumes or cardiac rehab
-referrals, so the forecast runs on a clinic's own history. The CDC enrollment
-and completion figures are Medicare fee-for-service, 2019–2020, and predate
-the pandemic.
+referrals, which is why any forecast has to run on a clinic's own history.
 
 ## Stack
 

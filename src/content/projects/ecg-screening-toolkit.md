@@ -3,7 +3,8 @@ title: 'ECG Screening Toolkit'
 summary: "A machine learning system that reads an ECG and flags what warrants a clinician's attention. Version one detects atrial fibrillation; the roadmap extends to ischemic ST changes, conduction abnormalities, and ECGs captured as photographs."
 detail: "A machine learning system that reads an ECG and flags what warrants a clinician's attention. Version one detects atrial fibrillation from rhythm irregularity, built end to end from raw PhysioNet waveforms to a deployed application. The roadmap extends to ischemic ST changes, conduction abnormalities, and ECGs captured as photographs rather than digital signals."
 status: 'live'
-statusLabel: 'v1 live at ecg.bentileo.tech'
+statusLabel: 'EKG app live'
+demoLabel: 'Open the EKG app'
 order: 2
 kicker: 'Machine learning · Signal processing'
 stack: 'Python · scikit-learn · Streamlit · Supabase · nginx'
@@ -22,10 +23,10 @@ irregularly irregular, with no underlying periodicity at all.
 
 <figure>
 <svg viewBox="0 0 700 150" preserveAspectRatio="none">
-<path d="M0,55 L40,55 L46,50 L52,55 L70,55 L74,60 L78,20 L82,68 L86,55 L110,55 L118,46 L126,55 L160,55 L166,50 L172,55 L190,55 L194,60 L198,20 L202,68 L206,55 L230,55 L238,46 L246,55 L280,55 L286,50 L292,55 L310,55 L314,60 L318,20 L322,68 L326,55 L350,55 L358,46 L366,55 L400,55 L406,50 L412,55 L430,55 L434,60 L438,20 L442,68 L446,55 L470,55 L478,46 L486,55 L520,55 L526,50 L532,55 L550,55 L554,60 L558,20 L562,68 L566,55 L590,55 L598,46 L606,55 L640,55 L646,50 L652,55 L670,55 L674,60 L678,20 L682,68 L686,55 L700,55" fill="none" stroke="#16161A" stroke-width="1.3"/>
-<path d="M0,130 L30,130 L34,126 L38,130 L48,130 L51,134 L54,100 L57,142 L60,130 L80,130 L86,122 L92,130 L106,130 L109,134 L112,100 L115,142 L118,130 L150,130 L153,134 L156,100 L159,142 L162,130 L185,130 L191,122 L197,130 L240,130 L243,134 L246,100 L249,142 L252,130 L268,130 L271,134 L274,100 L277,142 L280,130 L330,130 L333,134 L336,100 L339,142 L342,130 L360,130 L363,134 L366,100 L369,142 L372,130 L430,130 L433,134 L436,100 L439,142 L442,130 L455,130 L458,134 L461,100 L464,142 L467,130 L530,130 L533,134 L536,100 L539,142 L542,130 L560,130 L563,134 L566,100 L569,142 L572,130 L620,130 L623,134 L626,100 L629,142 L632,130 L660,130 L663,134 L666,100 L669,142 L672,130 L700,130" fill="none" stroke="#C8342B" stroke-width="1.3"/>
-<text x="8" y="16" font-family="Inter" font-size="10" fill="#5C5C64" letter-spacing="1">SINUS RHYTHM — evenly spaced</text>
-<text x="8" y="92" font-family="Inter" font-size="10" fill="#C8342B" letter-spacing="1">ATRIAL FIBRILLATION — irregularly irregular</text>
+<path d="M0,55 L40,55 L46,50 L52,55 L70,55 L74,60 L78,20 L82,68 L86,55 L110,55 L118,46 L126,55 L160,55 L166,50 L172,55 L190,55 L194,60 L198,20 L202,68 L206,55 L230,55 L238,46 L246,55 L280,55 L286,50 L292,55 L310,55 L314,60 L318,20 L322,68 L326,55 L350,55 L358,46 L366,55 L400,55 L406,50 L412,55 L430,55 L434,60 L438,20 L442,68 L446,55 L470,55 L478,46 L486,55 L520,55 L526,50 L532,55 L550,55 L554,60 L558,20 L562,68 L566,55 L590,55 L598,46 L606,55 L640,55 L646,50 L652,55 L670,55 L674,60 L678,20 L682,68 L686,55 L700,55" fill="none" stroke="#15191d" stroke-width="1.3"/>
+<path d="M0,130 L30,130 L34,126 L38,130 L48,130 L51,134 L54,100 L57,142 L60,130 L80,130 L86,122 L92,130 L106,130 L109,134 L112,100 L115,142 L118,130 L150,130 L153,134 L156,100 L159,142 L162,130 L185,130 L191,122 L197,130 L240,130 L243,134 L246,100 L249,142 L252,130 L268,130 L271,134 L274,100 L277,142 L280,130 L330,130 L333,134 L336,100 L339,142 L342,130 L360,130 L363,134 L366,100 L369,142 L372,130 L430,130 L433,134 L436,100 L439,142 L442,130 L455,130 L458,134 L461,100 L464,142 L467,130 L530,130 L533,134 L536,100 L539,142 L542,130 L560,130 L563,134 L566,100 L569,142 L572,130 L620,130 L623,134 L626,100 L629,142 L632,130 L660,130 L663,134 L666,100 L669,142 L672,130 L700,130" fill="none" stroke="#d9372a" stroke-width="1.3"/>
+<text x="8" y="16" font-family="Inter" font-size="10" fill="#6b7682" letter-spacing="1">SINUS RHYTHM — evenly spaced</text>
+<text x="8" y="92" font-family="Inter" font-size="10" fill="#d9372a" letter-spacing="1">ATRIAL FIBRILLATION — irregularly irregular</text>
 </svg>
 <figcaption>The signal the model learns. Both strips are ten seconds of lead II.</figcaption>
 </figure>

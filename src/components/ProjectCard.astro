@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { project, long = false } = Astro.props;
-const { title, summary, detail, status, statusLabel, stack, data, period, demo, repo, kicker } =
+const { title, summary, detail, status, statusLabel, data, period, demo, repo, kicker } =
   project.data;
 ---
 
@@ -19,7 +19,6 @@ const { title, summary, detail, status, statusLabel, stack, data, period, demo, 
   <span class={`status ${status === 'live' ? 'live' : ''}`}><i></i>{demo ? <a href={demo}>{statusLabel}</a> : statusLabel}</span>
   <table class="meta">
     <tbody>
-      <tr><td>Stack</td><td>{stack}</td></tr>
       {data && <tr><td>Data</td><td>{data}</td></tr>}
       {period && <tr><td>Period</td><td>{period}</td></tr>}
     </tbody>

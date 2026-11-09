@@ -23,6 +23,8 @@ const projects = defineCollection({
     demo: z.string().optional(),
     // Small label above the card title, e.g. the project's domain.
     kicker: z.string().optional(),
+    // Button text for the demo link on the write-up page.
+    demoLabel: z.string().optional(),
   }),
 });
 

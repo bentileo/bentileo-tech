@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="What commercial insurers pay US hospitals for cardiac rehab, stress testing and echocardiography, state by state against Medicare, with a clinic benchmark and forecast.">
+<meta name="description" content="What commercial insurers pay US hospitals for cardiac rehab, stress testing and echocardiography, state by state against Medicare.">
 <link rel="canonical" href="https://bentileo.tech/projects/price-of-a-heartbeat/dashboard/">
 <title>Cardiac Clinic Benchmark &amp; Revenue Forecasting</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -282,86 +282,6 @@ footer { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; border
     </div>
   </section>
 
-  <section id="compare" class="sec-rule" aria-labelledby="cmp-h">
-    <div class="sechead">
-      <p class="lab">Compare</p>
-      <h2 id="cmp-h"></h2>
-      <p class="lede" id="cmp-lede"></p>
-    </div>
-    <div class="twocol" id="cmp-grid">
-      <div class="chart" id="rankchart"></div>
-      <div class="chart heat" id="heat"></div>
-    </div>
-    <div class="chart quint" id="quint" hidden></div>
-  </section>
-
-  <section id="forecast" class="sec-rule" aria-labelledby="cl-h">
-    <div class="sechead">
-      <p class="lab">Your clinic</p>
-      <h2 id="cl-h">Benchmark your clinic against your state, then forecast it.</h2>
-      <p class="lede">Pick your state, see where its rates sit, enter your own baseline, and load your monthly history for a forecast.</p>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="num">1</div>
-        <div class="body">
-          <h3>Your state</h3>
-          <div class="controls-row">
-            <label class="field-inline" for="bm-state">State <select id="bm-state"></select></label>
-            <span class="mode" id="st-mode"></span>
-          </div>
-          <div class="statgrid">
-            <div class="chart stats" id="st-stats"></div>
-            <div class="chart box" id="st-box"></div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="num">2</div>
-        <div class="body">
-          <h3>Your baseline vs your state</h3>
-          <p class="sub" id="bl-sub"></p>
-          <div class="chart">
-            <div class="inputs" id="bl-inputs"></div>
-            <p class="verdict" id="bl-verdict"></p>
-            <div class="cmpbars" id="bl-bars"></div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="num">3</div>
-        <div class="body">
-          <h3 id="fc-h"></h3>
-          <p class="sub" id="fc-lede"></p>
-          <span class="mode" id="fc-mode"></span>
-          <div class="fcgrid">
-            <div class="fcmain">
-              <div class="fc-kpis" id="fc-kpis"></div>
-              <div class="chartpanel"><div id="fc-chart"></div><div class="key" id="fc-key"></div></div>
-              <p class="note" id="fc-note"></p>
-            </div>
-            <aside class="fcside" id="fc-side"></aside>
-          </div>
-          <details class="tabledetails" id="fc-data" open>
-            <summary>Forecast with your department’s monthly data</summary>
-            <div class="pastebox">
-              <p class="lede" id="fc-schema"></p>
-              <textarea id="fc-input" rows="7" spellcheck="false" aria-label="Monthly data"></textarea>
-              <div class="row-actions">
-                <button class="btn primary" type="button" id="fc-use">Forecast with this data</button>
-                <label class="btn" for="fc-file">Load a CSV file</label>
-                <input type="file" id="fc-file" accept=".csv,text/csv" hidden>
-                <button class="btn" type="button" id="fc-bench">Back to the state benchmark</button>
-                <span class="msg" id="fc-msg" role="status"></span>
-              </div>
-              <p class="note">Your numbers stay in this browser tab. Nothing is uploaded or saved.</p>
-            </div>
-          </details>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="about" aria-label="About this data">
     <details>
       <summary>Sources and how these numbers are built</summary>
@@ -371,7 +291,6 @@ footer { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; border
           <li><b>Medicare benchmark</b> is the national OPPS payment for 2026 (October update), not adjusted for local wages. All cardiac rehab codes pay $131.70 per session.</li>
           <li><b>Patients (cardiac rehab only).</b> CDC Interactive Atlas of Heart Disease and Stroke, Medicare fee-for-service, 2019–2020. Eligible counts beneficiaries with a qualifying event per 1,000; start is the share of eligible patients with at least one session within a year; finish is the share of starters reaching 36 sessions. County figures only, so a state is its typical (median) county. No public source reports referrals, and none reports volumes for stress tests.</li>
           <li><b>Hospitals offering cardiac rehab</b> come from the CDC’s 2022 hospital service map.</li>
-          <li><b>Your clinic.</b> Without your data, cardiac rehab shows a per-100-eligible-patients benchmark for the chosen state; stress tests have no public volume benchmark. With your monthly data, volumes are fitted with a linear trend plus month-of-year seasonality (24+ months), checked on the last 6 months held out, and projected 12 months with an 80% range. Revenue is volume × a blended rate (your Medicare share at Medicare’s rate, the rest at the state’s commercial rate for that service), so it ignores denials and copays.</li>
           <li>One price snapshot and one patient period, so no national trend yet. A published rate is a contract term, not proof of what was paid. Map geometry: US Census cartographic boundaries (Albers, via us-atlas).</li>
         </ul>
         <p><b>Disclosure.</b> Built by a physiologist and data scientist from public data only; no hospital or payer data beyond the published files.</p>
@@ -427,7 +346,7 @@ footer { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; border
   $("tabs").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
     const next = DOM.find((d) => d.code === b.dataset.c);
     if (next.pending) { pendingView(next); $("tabs").querySelectorAll("button").forEach((x) => x.setAttribute("aria-selected", x === b)); return; }
-    document.querySelectorAll("#us .kpis, #us .mapgrid, #compare").forEach((el) => (el.hidden = false)); $("pending").hidden = true;
+    document.querySelectorAll("#us .kpis, #us .mapgrid").forEach((el) => (el.hidden = false)); $("pending").hidden = true;
     dom = next; metric = "price";
     $("tabs").querySelectorAll("button").forEach((x) => x.setAttribute("aria-selected", x === b));
     drawAll();
@@ -437,7 +356,7 @@ footer { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; border
   function pendingView(d) {
     $("us-h").textContent = `${titleCase(d.name)} Commercial Price by State`;
     $("us-sub").textContent = d.what;
-    document.querySelectorAll("#us .kpis, #us .mapgrid, #compare").forEach((el) => (el.hidden = true));
+    document.querySelectorAll("#us .kpis, #us .mapgrid").forEach((el) => (el.hidden = true));
     $("pending").hidden = false;
     $("pending").innerHTML = `<h3>No prices extracted yet for CPT ${d.code}</h3><p>The current price snapshot was pulled for cardiac rehab and stress-testing codes only. Resting echo joins the next extraction run; nothing is shown here until real figures exist.</p>`;
   }
@@ -523,7 +442,7 @@ footer { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; border
       ${row("Sessions per starter", s.mean_sessions != null ? s.mean_sessions.toFixed(1) + " of 36" : "suppressed", s.mean_sessions != null ? `${ord(s.rank_mean_sessions)} of 50 · US ${US.mean_sessions}` : "")}
       ${row("Hospitals offering rehab", s.hospitals, "CDC, 2022")}`;
     }
-    html += `</tbody></table>${s.why_few ? `<p class="note">${esc(s.why_few)}</p>` : ""}<p class="cta"><a href="#forecast">Forecast this clinic ↓</a></p>`;
+    html += `</tbody></table>${s.why_few ? `<p class="note">${esc(s.why_few)}</p>` : ""}`;
     $("panel").innerHTML = html;
   }
 
@@ -624,269 +543,11 @@ footer { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; border
     }
   }
 
-  function drawAll() { head(); drawMap(); drawPanel(); compareHead(); heatSort = dom.code; drawRank(); drawHeat(); drawQuint(); }
+  function drawAll() { head(); drawMap(); drawPanel(); }
   window.hbSelectedState = () => selected;
   drawAll();
 })();
 </script>
-<script>
-(function () {
-  const N = JSON.parse(document.getElementById("natdata").textContent);
-  const $ = (id) => document.getElementById(id);
-  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const usd = (v) => v == null ? "–" : "$" + Math.round(v).toLocaleString("en-US");
-  const pct = (v) => v == null ? "–" : Math.round(v) + "%";
-  const ord = (n) => n + (["th", "st", "nd", "rd"][(n % 100 - 20) % 10] || ["th", "st", "nd", "rd"][n % 100] || "th");
-  const S = Object.fromEntries(N.states.map((s) => [s.st, s]));
-  const US = N.us, MC = N.meta.medicare, DOM = window.HB_DOMAINS;
-  const states50 = N.states.filter((s) => s.st !== "DC");
-  let dom = DOM[0], state = "WA";
-  const inp = { rate: null, vol: null, mix: 70 };
-  const unitName = () => dom.code === "93798" ? "session" : "test";
-  const q = (arr, p) => { const a = [...arr].sort((x, y) => x - y), i = (a.length - 1) * p, lo = Math.floor(i), hi = Math.ceil(i); return a[lo] + (a[hi] - a[lo]) * (i - lo); };
 
-  addEventListener("hb-domain", (e) => { dom = DOM.find((d) => d.code === e.detail); inp.rate = null; draw(); });
-  addEventListener("hb-state", (e) => { if (S[e.detail] && e.detail !== "DC") { state = e.detail; $("bm-state").value = state; $("bm-state").dispatchEvent(new Event("change")); } });
-  $("bm-state").addEventListener("change", () => { state = $("bm-state").value; inp.rate = null; draw(); });
-
-  function stats() {
-    const c = dom.code, s = S[state], vals = states50.map((x) => x[`p_${c}`]), v = s[`p_${c}`];
-    const below = vals.filter((x) => x < v).length, pctile = Math.round(100 * below / (vals.length - 1));
-    const row = (label, val, me) => `<tr${me ? ' class="me"' : ""}><td>${label}</td><td class="n">${val}</td></tr>`;
-    $("st-mode").textContent = `${dom.name} · commercial rate ${dom.unit}`;
-    $("st-stats").innerHTML = `<table><thead><tr><th>${esc(s.name)} vs the 50 states</th><th></th></tr></thead><tbody>
-      ${row("Lowest state", usd(q(vals, 0)))}${row("25th percentile", usd(q(vals, 0.25)))}${row("Median state", usd(q(vals, 0.5)))}${row("75th percentile", usd(q(vals, 0.75)))}${row("Highest state", usd(q(vals, 1)))}
-      ${row(`${esc(s.name)}, typical hospital`, `${usd(v)} · ${ord(s[`rank_${c}`])} of 50`, true)}
-      ${row("Medicare (OPPS 2026)", usd(MC[c]))}${row(`Cash price in ${esc(s.name)}`, s[`cash_${c}`] ? usd(s[`cash_${c}`]) : "not published")}${row("Hospital price files", s[`q_${c}`] === "estimated" ? "none · estimated from the census division" : s[`n_${c}`])}
-      ${c === "93798" ? row("Eligible patients who start", s.participation_pct != null ? `${pct(s.participation_pct)} · US ${pct(US.participation_pct)}` : "suppressed") + row("Starters who finish 36", s.completion_pct != null ? `${pct(s.completion_pct)} · US ${pct(US.completion_pct)}` : "suppressed") : ""}
-      </tbody></table><p class="note">Each state is its typical (median) hospital file. ${esc(s.name)} is pricier than ${pctile}% of states for this service.</p>`;
-    // box plot
-    const W = 520, H = 150, L = 16, R = 16, lo = q(vals, 0), hi = q(vals, 1), X = (x) => L + (x - lo) / (hi - lo) * (W - L - R), y0 = 62;
-    const p25 = q(vals, 0.25), p50 = q(vals, 0.5), p75 = q(vals, 0.75);
-    const dots = states50.map((x) => `<circle cx="${X(x[`p_${c}`])}" cy="${y0 + 46}" r="3.5" fill="${x.st === state ? "var(--you)" : "var(--tick-peer)"}" opacity="${x.st === state ? 1 : 0.7}"><title>${esc(x.name)} ${usd(x[`p_${c}`])}</title></circle>`).join("");
-    const mcx = Math.max(L, Math.min(W - R, X(MC[c])));
-    $("st-box").innerHTML = `<div class="head"><h3>Where ${esc(s.name)} sits</h3></div><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Box plot of state commercial rates with ${esc(s.name)} marked">
-      <line x1="${X(lo)}" x2="${X(hi)}" y1="${y0}" y2="${y0}" stroke="var(--tick-peer)"/>
-      <rect x="${X(p25)}" y="${y0 - 16}" width="${X(p75) - X(p25)}" height="32" fill="var(--seq-2)" stroke="var(--seq-4)"/>
-      <line x1="${X(p50)}" x2="${X(p50)}" y1="${y0 - 16}" y2="${y0 + 16}" stroke="var(--seq-5)" stroke-width="2"/>
-      <line x1="${X(lo)}" x2="${X(lo)}" y1="${y0 - 8}" y2="${y0 + 8}" stroke="var(--tick-peer)"/><line x1="${X(hi)}" x2="${X(hi)}" y1="${y0 - 8}" y2="${y0 + 8}" stroke="var(--tick-peer)"/>
-      <line x1="${mcx}" x2="${mcx}" y1="${y0 - 28}" y2="${y0 + 28}" stroke="var(--medicare)" stroke-dasharray="3 3"/><text x="${mcx + 5}" y="${y0 - 20}">Medicare ${usd(MC[c])}</text>
-      <circle cx="${X(v)}" cy="${y0}" r="7" fill="var(--you)" stroke="#fff" stroke-width="2"/><text x="${X(v)}" y="${y0 - 32}" text-anchor="middle" style="fill:var(--you);font-weight:600">${esc(s.name)} ${usd(v)}</text>
-      <text x="${X(lo)}" y="${y0 + 30}" text-anchor="${X(lo) < 40 ? "start" : "middle"}">${usd(lo)}</text><text x="${X(p50)}" y="${y0 + 30}" text-anchor="middle">median ${usd(p50)}</text><text x="${X(hi)}" y="${y0 + 30}" text-anchor="${X(hi) > W - 40 ? "end" : "middle"}">${usd(hi)}</text>
-      ${dots}<text x="${L}" y="${y0 + 66}">Every state as a dot; box is the middle half of states.</text></svg>`;
-  }
-
-  function baseline() {
-    const c = dom.code, s = S[state], stRate = s[`p_${c}`], u = unitName();
-    if (inp.rate == null) inp.rate = Math.round(stRate);
-    $("bl-sub").textContent = `Enter your contracted commercial rate per ${u}, your monthly volume and your Medicare share. The comparison uses ${s.name}’s typical commercial rate and Medicare’s ${usd(MC[c])}.`;
-    $("bl-inputs").innerHTML = `<label>Your commercial rate per ${u}<input type="number" id="bl-rate" min="0" step="1" value="${inp.rate}"><span class="unit">${esc(s.name)} typical: ${usd(stRate)}</span></label>
-      <label>${u[0].toUpperCase() + u.slice(1)}s per month<input type="number" id="bl-vol" min="0" step="1" placeholder="e.g. your last 12-month average" value="${inp.vol ?? ""}"><span class="unit">all payers</span></label>
-      <label>Medicare share of ${u}s<input type="number" id="bl-mix" min="0" max="100" step="5" value="${inp.mix}"><span class="unit">percent, your own payer mix</span></label>`;
-    ["rate", "vol", "mix"].forEach((k) => $("bl-" + k).addEventListener("input", () => { const v = $("bl-" + k).value; inp[k] = v === "" ? null : +v; verdict(); }));
-    verdict();
-  }
-  function verdict() {
-    const c = dom.code, s = S[state], stRate = s[`p_${c}`], mc = MC[c], u = unitName(), rate = inp.rate ?? stRate, mix = Math.max(0, Math.min(100, inp.mix ?? 70)) / 100;
-    const vals = states50.map((x) => x[`p_${c}`]), rankIf = vals.filter((x) => x > rate).length + 1;
-    const diff = (rate - stRate) / stRate;
-    const dp = Math.round(diff * 100);
-    let html = `Your rate is ${dp === 0 ? "<b>about the same as</b>" : `<b class="${dp > 0 ? "up" : "down"}">${dp > 0 ? "+" : "−"}${Math.abs(dp)}%</b> vs`} ${esc(s.name)}’s typical hospital (${usd(stRate)}), <b>${(rate / mc).toFixed(2)}×</b> Medicare. As a state it would rank <b>${ord(rankIf)} of 50</b>.`;
-    if (inp.vol) {
-      const yr = inp.vol * 12, blend = (r) => mix * mc + (1 - mix) * r;
-      const mine = yr * blend(rate), stateRev = yr * blend(stRate), mcOnly = yr * mc;
-      html += ` At ${inp.vol.toLocaleString("en-US")} ${u}s a month and ${Math.round(mix * 100)}% Medicare, that is <b>${usd(mine)}</b> a year, ${Math.abs(mine - stateRev) < 1000 ? "within $1,000 of" : `<b class="${mine >= stateRev ? "up" : "down"}">${mine >= stateRev ? "+" : "−"}${usd(Math.abs(mine - stateRev))}</b> against`} the same volume at ${esc(s.name)}’s typical rate.`;
-      const rows = [["Your rates", mine, "var(--you)"], [`${s.name} typical rate`, stateRev, "var(--seq-4)"], ["If every payer paid Medicare", mcOnly, "var(--tick-peer)"]];
-      const W = 760, labW = 220, Rm = 110, rowH = 34, T = 6, H = T + rows.length * rowH, max = Math.max(...rows.map((r) => r[1])) * 1.02, X = (v) => labW + v / max * (W - labW - Rm);
-      $("bl-bars").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Annual revenue comparison">${rows.map(([l, v, col], i) => { const y = T + i * rowH; return `<text x="${labW - 10}" y="${y + 20}" text-anchor="end">${esc(l)}</text><rect x="${labW}" y="${y + 7}" width="${Math.max(2, X(v) - labW)}" height="18" fill="${col}"/><text x="${X(v) + 8}" y="${y + 20}" style="fill:var(--ink);font-weight:500">${usd(v)}</text>`; }).join("")}</svg><p class="note">Annual revenue = 12 × monthly ${u}s × blended rate (Medicare share at ${usd(mc)}, the rest at the commercial rate). Contract terms, not collections.</p>`;
-    } else { html += ` Add your monthly volume to see annual revenue side by side.`; $("bl-bars").innerHTML = ""; }
-    $("bl-verdict").innerHTML = html;
-  }
-
-  function draw() { stats(); baseline(); }
-  draw();
-})();
-</script>
-<script>
-(function () {
-  const N = JSON.parse(document.getElementById("natdata").textContent);
-  const $ = (id) => document.getElementById(id);
-  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const usd = (v) => (v < 0 ? "−" : "") + "$" + Math.round(Math.abs(v)).toLocaleString("en-US");
-  const num = (v) => Math.round(v).toLocaleString("en-US");
-  const S = Object.fromEntries(N.states.map((s) => [s.st, s]));
-  const US = N.us, MC = N.meta.medicare;
-  const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const DOM = window.HB_DOMAINS;
-  let dom = DOM[0], state = "WA", mode = "bench", data = {}; // data per code
-  const lev = { growth: 10, ref: 10, enr: 5, ses: 3, mix: 70 };
-  const tip = $("tip");
-  const isRehab = () => dom.code === "93798";
-  const unitName = () => isRehab() ? "session" : "test";
-
-  const usable = N.states.filter((s) => s.st !== "DC").sort((a, b) => a.name.localeCompare(b.name));
-  $("bm-state").innerHTML = usable.map((s) => `<option value="${s.st}">${esc(s.name)}</option>`).join("");
-  $("bm-state").value = state;
-  $("bm-state").addEventListener("change", () => { state = $("bm-state").value; run(); });
-  addEventListener("hb-domain", (e) => { dom = DOM.find((d) => d.code === e.detail); mode = data[dom.code] ? "data" : "bench"; schema(); run(); });
-
-  function rates() {
-    const s = S[state], com = s[`p_${dom.code}`], mc = MC[dom.code], mix = lev.mix / 100;
-    return { com, mc, mix, rate: mix * mc + (1 - mix) * com };
-  }
-
-  // ----- side panel (levers) -----
-  function side() {
-    const r = rates();
-    const slider = (id, label, val, min, max, step, hint) => `<div class="lever"><label for="${id}">${label} <b id="${id}-v">${val}</b></label><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${lev[id.slice(3)]}"><span class="hint">${hint}</span></div>`;
-    let html = "";
-    if (isRehab() && (mode === "bench" || (data[dom.code] && data[dom.code][0].referrals != null))) {
-      html += slider("lv-ref", "Referral capture", "", 0, 50, 5, "More eligible patients referred, for example automatic referral at discharge.")
-        + slider("lv-enr", "Enrollment", "", 0, 30, 1, "Percentage points more patients who start, for example a first visit within two weeks.")
-        + slider("lv-ses", "Sessions per patient", "", 0, 12, 1, "Extra sessions attended per patient, for example outreach after a missed visit. Capped at 36.");
-    } else {
-      html += slider("lv-growth", "Volume growth", "", -20, 50, 5, `Change in monthly ${unitName()}s over the next 12 months, phased in over 6, for example added slots or faster scheduling.`);
-    }
-    html += `<div class="lever two"><label for="lv-mix">Medicare share of ${unitName()}s <b id="lv-mix-v"></b></label><input type="range" id="lv-mix" min="0" max="100" step="5" value="${lev.mix}"><span class="hint">Medicare pays ${usd(r.mc)}; commercial plans in ${esc(S[state].name)} pay ${usd(r.com)} ${dom.unit}. Set this to your own payer mix.</span></div><div class="scen" id="fc-scen" aria-live="polite"></div>`;
-    $("fc-side").innerHTML = html;
-    $("fc-side").querySelectorAll("input[type=range]").forEach((inp) => inp.addEventListener("input", () => { lev[inp.id.slice(3)] = +inp.value; run(false); }));
-  }
-
-  // ----- benchmark mode -----
-  function bench() {
-    const s = S[state], r = rates();
-    $("fc-mode").textContent = `State benchmark · ${dom.name}`;
-    $("fc-h").textContent = isRehab() ? `What more patients and more sessions are worth to a cardiac rehab program.` : `What your ${dom.plural} are worth, and where volume is heading.`;
-    if (!isRehab() || s.participation_pct == null || s.mean_sessions == null) {
-      $("fc-lede").textContent = isRehab() ? `The CDC suppresses ${s.name}’s county data, so there is no public benchmark here. Load your monthly numbers below.` : `No public source reports how many ${dom.plural} a hospital performs, so there is no volume benchmark. Load your department’s monthly numbers below to forecast volume and revenue at ${s.name}’s rates.`;
-      $("fc-kpis").innerHTML = `<div><span>Medicare pays</span><b>${usd(r.mc)}</b><small>${dom.unit}, OPPS 2026</small></div><div><span>Commercial plans pay in ${esc(s.name)}</span><b>${usd(r.com)}</b><small>${(r.com / r.mc).toFixed(2)}× Medicare</small></div><div><span>Blended rate at ${lev.mix}% Medicare</span><b>${usd(r.rate)}</b><small>${dom.unit}</small></div>`;
-      $("fc-chart").innerHTML = ""; $("fc-key").innerHTML = ""; $("fc-note").textContent = "";
-      $("lv-mix-v").textContent = `${lev.mix}%`;
-      const g = $("lv-growth"); if (g) $("lv-growth-v").textContent = `${lev.growth >= 0 ? "+" : ""}${lev.growth}%`;
-      $("fc-scen").innerHTML = `<p>Each extra ${unitName()} is worth <b>${usd(r.rate)}</b> at this mix: ${usd(r.rate * 100)} per 100 ${unitName()}s a year.</p>`;
-      return;
-    }
-    const part = s.participation_pct, sess = s.mean_sessions;
-    const part2 = Math.min(100, part * (1 + lev.ref / 100) + lev.enr), sess2 = Math.min(36, sess + lev.ses);
-    const now = part * sess, next = part2 * sess2, top = US.participation_pct_p75 * US.mean_sessions_p75, goal = N.meta.target_part * N.meta.target_sess;
-    $("fc-lede").textContent = `Per 100 Medicare patients eligible for cardiac rehab in ${s.name}’s typical county (CDC, ${N.meta.cdc_years}). Load your department’s monthly numbers below for a forecast from your own history.`;
-    $("lv-ref-v").textContent = `+${lev.ref}%`; $("lv-enr-v").textContent = `${Math.round(part)}% → ${Math.round(part2)}% start`; $("lv-ses-v").textContent = `${sess.toFixed(1)} → ${sess2.toFixed(1)}`; $("lv-mix-v").textContent = `${lev.mix}%`;
-    $("fc-kpis").innerHTML = `<div><span>Sessions per 100 eligible</span><b>${num(now)}</b><small>${Math.round(part)}% start × ${sess.toFixed(1)} sessions</small></div><div><span>Revenue per 100 eligible</span><b>${usd(now * r.rate)}</b><small>a year at a blended ${usd(r.rate)} a session</small></div><div><span>Gap to US top-quarter county</span><b>${top > now ? usd((top - now) * r.rate) : "none"}</b><small>${top > now ? `${num(top - now)} more sessions per 100 eligible` : "already above the top quarter"}</small></div>`;
-    $("fc-scen").innerHTML = `<span class="lab">With these changes</span><div class="big">+${usd((next - now) * r.rate)}</div><p>more revenue a year for every 100 eligible patients in your service area.</p><div class="row"><span>Patients who start</span><b>${Math.round(part)}% → ${Math.round(part2)}%</b></div><div class="row"><span>Sessions per patient</span><b>${sess.toFixed(1)} → ${sess2.toFixed(1)}</b></div><div class="row"><span>Extra sessions per 100 eligible</span><b>+${num(next - now)}</b></div>`;
-    $("fc-note").textContent = `Scale by your service area: 300 eligible patients a year is three times these figures. Revenue is sessions × a blended rate, so it ignores denials and copays.`;
-    const rows = [{ label: `${s.name} today`, v: now, col: "var(--you)" }, { label: "With your changes", v: next, col: "var(--scen)" }, { label: "US typical county", v: US.participation_pct * US.mean_sessions, col: "var(--tick-peer)" }, { label: "US top-quarter county", v: top, col: "var(--tick-peer)" }, { label: "Million Hearts goal", v: goal, col: "var(--fc)" }];
-    const el = $("fc-chart"), W = Math.max(el.clientWidth || 640, 320), narrow = W < 560, labW = narrow ? 140 : 260, R = narrow ? 140 : 220, rowH = 40, T = 8, H = T + rows.length * rowH + 8, max = Math.max(...rows.map((x) => x.v)) * 1.02, x = (v) => labW + (v / max) * (W - labW - R);
-    el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Sessions per 100 eligible patients">${rows.map((q, i) => { const y = T + i * rowH; return `<text x="${labW - 10}" y="${y + 24}" text-anchor="end" style="fill:var(--ink);font-size:13px">${esc(q.label)}</text><rect x="${labW}" y="${y + 10}" width="${Math.max(2, x(q.v) - labW)}" height="20" rx="4" fill="${q.col}"/><text x="${x(q.v) + 8}" y="${y + 24}" style="fill:var(--ink-2);font-size:12.5px">${num(q.v)} sessions, ${usd(q.v * r.rate)}</text>`; }).join("")}</svg>`;
-    $("fc-key").innerHTML = `<span>Sessions a year per 100 eligible Medicare patients, and their revenue at the blended rate.</span>`;
-  }
-
-  // ----- your-data mode -----
-  function design(t, m, seasonal) { const x = [1, t]; if (seasonal) for (let k = 1; k < 12; k++) x.push(m === k ? 1 : 0); return x; }
-  function solve(A, b) { const n = b.length, M = A.map((r, i) => [...r, b[i]]); for (let c = 0; c < n; c++) { let p = c; for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r; [M[c], M[p]] = [M[p], M[c]]; if (Math.abs(M[c][c]) < 1e-9) M[c][c] = 1e-9; for (let r = 0; r < n; r++) if (r !== c) { const f = M[r][c] / M[c][c]; for (let k = c; k <= n; k++) M[r][k] -= f * M[c][k]; } } return M.map((r, i) => r[n] / r[i]); }
-  function fit(rows) { const seasonal = rows.length >= 24; const X = rows.map((r, i) => design(i, +r.month.slice(5, 7) - 1, seasonal)), y = rows.map((r) => r.volume), p = X[0].length; const XtX = Array.from({ length: p }, (_, a) => Array.from({ length: p }, (_, b) => X.reduce((s, x) => s + x[a] * x[b], 0))); const Xty = Array.from({ length: p }, (_, a) => X.reduce((s, x, i) => s + x[a] * y[i], 0)); const beta = solve(XtX, Xty); const yhat = X.map((x) => x.reduce((s, v, k) => s + v * beta[k], 0)); const sigma = Math.sqrt(y.reduce((s, v, i) => s + (v - yhat[i]) ** 2, 0) / Math.max(1, y.length - p)); return { predict: (i, m) => design(i, m, seasonal).reduce((s, v, k) => s + v * beta[k], 0), sigma, seasonal }; }
-  const nextMonth = (ym, k) => new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7) - 1 + k, 1)).toISOString().slice(0, 7);
-
-  function forecast() {
-    const rows = data[dom.code], n = rows.length, r = rates(), hold = Math.min(6, Math.floor(n / 4));
-    const train = fit(rows.slice(0, n - hold));
-    const back = rows.slice(n - hold).map((q, j) => ({ month: q.month, actual: q.volume, pred: Math.max(0, train.predict(n - hold + j, +q.month.slice(5, 7) - 1)) }));
-    const mape = back.reduce((s, b) => s + Math.abs(b.actual - b.pred) / Math.max(1, b.actual), 0) / back.length;
-    const model = fit(rows), z = 1.2816;
-    const funnel = rows[0].referrals != null && isRehab();
-    let mult, leverText;
-    if (funnel) {
-      const last = rows.slice(-12), R = last.reduce((s, q) => s + q.referrals, 0), E = last.reduce((s, q) => s + q.enrollments, 0), V = last.reduce((s, q) => s + q.volume, 0);
-      const er = E / Math.max(1, R), spp = V / Math.max(1, E), er2 = Math.min(1, er + lev.enr / 100), spp2 = Math.min(36, spp + lev.ses);
-      mult = (1 + lev.ref / 100) * (er2 / er) * (spp2 / spp);
-      $("lv-ref-v").textContent = `+${lev.ref}%`; $("lv-enr-v").textContent = `${Math.round(er * 100)}% → ${Math.round(er2 * 100)}% of referrals`; $("lv-ses-v").textContent = `${spp.toFixed(1)} → ${spp2.toFixed(1)}`;
-      leverText = `Last 12 months: ${Math.round(er * 100)}% of referrals started, ${spp.toFixed(1)} sessions per patient.`;
-    } else { mult = 1 + lev.growth / 100; $("lv-growth-v").textContent = `${lev.growth >= 0 ? "+" : ""}${lev.growth}%`; leverText = ""; }
-    $("lv-mix-v").textContent = `${lev.mix}%`;
-    const fc = Array.from({ length: 12 }, (_, k) => { const month = nextMonth(rows[n - 1].month, k + 1), y = Math.max(0, model.predict(n + k, +month.slice(5, 7) - 1)); return { month, y, lo: Math.max(0, y - z * model.sigma), hi: y + z * model.sigma, m: 1 + (mult - 1) * Math.min(1, (k + 1) / 6) }; });
-    const base = fc.reduce((s, f) => s + f.y, 0), extra = fc.reduce((s, f) => s + f.y * (f.m - 1), 0);
-    $("fc-mode").textContent = `Your data · ${dom.name} · ${n} months`;
-    $("fc-h").textContent = `Your ${dom.plural}: where volume has been, where it is heading, and what it is worth.`;
-    $("fc-lede").textContent = `Fitted to your monthly history, checked on the last ${hold} months it had not seen, then projected 12 months at ${S[state].name}’s rates.`;
-    $("fc-kpis").innerHTML = `<div><span>${unitName()[0].toUpperCase() + unitName().slice(1)}s, next 12 months</span><b>${num(base)}</b><small>80% range ${num(fc.reduce((s, f) => s + f.lo, 0))}–${num(fc.reduce((s, f) => s + f.hi, 0))}</small></div><div><span>Revenue, next 12 months</span><b>${usd(base * r.rate)}</b><small>at a blended ${usd(r.rate)} ${dom.unit}</small></div><div><span>Model check</span><b>${(mape * 100).toFixed(1)}%</b><small>average miss on the last ${hold} months, held out</small></div>`;
-    $("fc-scen").innerHTML = `<span class="lab">With these changes</span><div class="big">${extra >= 0 ? "+" : ""}${usd(extra * r.rate)}</div><p>${extra >= 0 ? "more" : "less"} revenue over the next 12 months, phased in over the first 6.</p><div class="row"><span>Extra ${unitName()}s</span><b>${extra >= 0 ? "+" : ""}${num(extra)}</b></div><div class="row"><span>Per ${unitName()}</span><b>${usd(r.rate)}</b></div>`;
-    $("fc-note").textContent = `${model.seasonal ? "Trend and seasonality" : "Trend only (24+ months adds seasonality)"}. ${leverText} Revenue is volume × a blended rate, so it ignores denials and copays.`;
-    chart(rows, back, fc);
-  }
-
-  function chart(rows, back, fc) {
-    const el = $("fc-chart"), W = Math.max(el.clientWidth || 640, 320), H = 280, L = 46, R = 14, T = 16, B = 28;
-    const pts = rows.map((r) => ({ month: r.month, y: r.volume })), n = pts.length, scen = fc.some((f) => Math.abs(f.m - 1) > 0.0001);
-    const ymax = Math.max(...pts.map((p) => p.y), ...fc.map((f) => f.hi), ...fc.map((f) => f.y * f.m)) * 1.08;
-    const months = [...pts.map((p) => p.month), ...fc.map((f) => f.month)];
-    const x = (i) => L + (i / (months.length - 1)) * (W - L - R), y = (v) => T + (1 - v / ymax) * (H - T - B);
-    const line = (arr, off) => arr.map((v, i) => `${i ? "L" : "M"}${x(i + off).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
-    const step = Math.pow(10, Math.floor(Math.log10(ymax / 4))), tick = [1, 2, 2.5, 5, 10].map((m) => m * step).find((s) => ymax / s <= 5);
-    let s = "";
-    for (let v = 0; v <= ymax; v += tick) s += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--rule)"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end" style="fill:var(--muted);font-size:11.5px">${num(v)}</text>`;
-    months.forEach((m, i) => { if (m.endsWith("-01") || (i === 0 && +m.slice(5, 7) <= 9)) s += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">${m.endsWith("-01") ? m.slice(0, 4) : MON[+m.slice(5, 7) - 1] + " " + m.slice(2, 4)}</text>`; });
-    s += `<line x1="${x(n - 0.5)}" x2="${x(n - 0.5)}" y1="${T}" y2="${H - B}" stroke="var(--tick-peer)" stroke-dasharray="2 3"/><text x="${x(n - 0.5) + 6}" y="${T + 10}" style="fill:var(--muted);font-size:11.5px">forecast</text>`;
-    s += `<path d="${fc.map((f, i) => `${i ? "L" : "M"}${x(n + i)},${y(f.hi)}`).join(" ")} ${[...fc].reverse().map((f, i) => `L${x(n + fc.length - 1 - i)},${y(f.lo)}`).join(" ")} Z" fill="var(--fc-band)"/>`;
-    s += `<path d="${line(pts.map((p) => p.y), 0)}" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
-    s += `<path d="${line(back.map((b) => b.pred), n - back.length)}" fill="none" stroke="var(--tick-peer)" stroke-width="2" stroke-dasharray="5 4"/>`;
-    s += `<path d="${line([pts[n - 1].y, ...fc.map((f) => f.y)], n - 1)}" fill="none" stroke="var(--fc)" stroke-width="2"/>`;
-    if (scen) s += `<path d="${line([pts[n - 1].y, ...fc.map((f) => f.y * f.m)], n - 1)}" fill="none" stroke="var(--scen)" stroke-width="2.2"/>`;
-    s += `<line id="fc-cross" x1="0" x2="0" y1="${T}" y2="${H - B}" stroke="var(--ink-2)" visibility="hidden"/><rect id="fc-hit" x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent"/>`;
-    el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly volume: actual, held-out check and 12-month forecast">${s}</svg>`;
-    $("fc-key").innerHTML = `<span><i style="background:var(--ink)"></i>Actual</span><span><i style="background:var(--tick-peer)"></i>Model on held-out months</span><span><i style="background:var(--fc)"></i>Forecast, 80% range shaded</span>${scen ? `<span><i style="background:var(--scen)"></i>With changes</span>` : ""}`;
-    const cross = el.querySelector("#fc-cross"), backMap = Object.fromEntries(back.map((b) => [b.month, b.pred]));
-    el.querySelector("#fc-hit").addEventListener("mousemove", (ev) => {
-      const rect = el.querySelector("svg").getBoundingClientRect();
-      const i = Math.max(0, Math.min(months.length - 1, Math.round(((ev.clientX - rect.left) * (W / rect.width) - L) / (W - L - R) * (months.length - 1))));
-      cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
-      const [yy, mm] = months[i].split("-");
-      let html = `<b>${MON[+mm - 1]} ${yy}</b><br>`;
-      if (i < n) { html += `Actual ${num(pts[i].y)}`; if (backMap[months[i]] != null) html += `<br><span class="m">Model ${num(backMap[months[i]])}</span>`; }
-      else { const f = fc[i - n]; html += `Forecast ${num(f.y)}<br><span class="m">Range ${num(f.lo)}–${num(f.hi)}</span>${scen ? `<br>With changes ${num(f.y * f.m)}` : ""}`; }
-      tip.innerHTML = html; tip.hidden = false; tip.style.left = Math.min(innerWidth - tip.offsetWidth - 8, ev.clientX + 14) + "px"; tip.style.top = (ev.clientY + 14) + "px";
-    });
-    el.querySelector("#fc-hit").addEventListener("mouseleave", () => { tip.hidden = true; cross.setAttribute("visibility", "hidden"); });
-  }
-
-  // ----- input -----
-  function schema() {
-    $("fc-schema").innerHTML = isRehab()
-      ? `One row per month for cardiac rehab: <code>month,sessions</code>, or <code>month,referrals,enrollments,sessions</code> to unlock the referral and enrollment levers. Month as YYYY-MM; at least 12 months, 24 or more for seasonality.`
-      : `One row per month for ${esc(dom.plural)}: <code>month,tests</code>. Month as YYYY-MM; at least 12 months, 24 or more for seasonality.`;
-    $("fc-input").placeholder = isRehab() ? "month,referrals,enrollments,sessions\n2024-01,52,21,410" : "month,tests\n2024-01,88";
-  }
-  function parse(text) {
-    const rows = [], errs = [];
-    text.split(/\r?\n/).forEach((line, i) => {
-      const t = line.trim(); if (!t || /month/i.test(t)) return;
-      const c = t.split(/[,;\t]/).map((s) => s.trim());
-      const m = (c[0] || "").replace(/\//g, "-").match(/^(\d{4})-(\d{1,2})/);
-      const v = c.slice(1).map((s) => Number(s.replace(/[^0-9.\-]/g, "")));
-      if (!m || !v.length || v.some((x) => !isFinite(x))) { errs.push(i + 1); return; }
-      const row = { month: `${m[1]}-${m[2].padStart(2, "0")}` };
-      if (v.length >= 3) { row.referrals = v[0]; row.enrollments = v[1]; row.volume = v[2]; } else row.volume = v[0];
-      rows.push(row);
-    });
-    rows.sort((a, b) => a.month.localeCompare(b.month));
-    return { rows, errs };
-  }
-  function use(text) {
-    const { rows, errs } = parse(text), msg = $("fc-msg");
-    if (rows.length < 12) { msg.className = "msg err"; msg.textContent = `Found ${rows.length} usable months; at least 12 are needed.${errs.length ? ` Check line${errs.length > 1 ? "s" : ""} ${errs.slice(0, 5).join(", ")}.` : ""}`; return; }
-    const funnel = rows.every((r) => r.referrals != null);
-    if (!funnel) rows.forEach((r) => { delete r.referrals; delete r.enrollments; });
-    if (funnel && rows.some((r) => r.referrals <= 0 || r.enrollments <= 0)) { msg.className = "msg err"; msg.textContent = "Referrals and enrollments need to be above zero in every month."; return; }
-    data[dom.code] = rows; mode = "data";
-    msg.className = "msg"; msg.textContent = `Forecasting ${dom.plural} from ${rows.length} months of your data${errs.length ? `; skipped ${errs.length} unreadable line${errs.length > 1 ? "s" : ""}` : ""}.`;
-    run(); $("forecast").scrollIntoView({ block: "start" });
-  }
-  $("fc-use").addEventListener("click", () => use($("fc-input").value));
-  $("fc-bench").addEventListener("click", () => { mode = "bench"; $("fc-msg").className = "msg"; $("fc-msg").textContent = "Showing the state benchmark."; run(); });
-  $("fc-file").addEventListener("change", (e) => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { $("fc-input").value = r.result; use(r.result); }; r.readAsText(f); });
-
-  function run(rebuildSide = true) { if (rebuildSide) side(); mode === "data" && data[dom.code] ? forecast() : bench(); }
-  let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => run(false), 150); });
-  schema(); run();
-})();
-</script>
 </body>
 </html>
