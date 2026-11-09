@@ -1,50 +1,19 @@
 ---
-import { GITHUB_URL, LINKEDIN_URL, SITE_TITLE } from '../consts';
+import { GITHUB_URL, LINKEDIN_URL, SITE_TAGLINE, SITE_TITLE } from '../consts';
 
 interface Props {
-  active?: 'home' | 'projects' | 'about';
+  active?: 'home' | 'projects';
 }
 
 const { active } = Astro.props;
 ---
 
-<nav>
-  <div class="identity">
-    <span class="name"><a href="/">{SITE_TITLE}</a></span>
-    <span class="contact">
-      <a href={GITHUB_URL}>GitHub</a>
-      <a href={LINKEDIN_URL}>LinkedIn</a>
-      <a href="#" class="mail">Email</a>
-    </span>
-  </div>
-  <span class="pages">
-    <a href="/" class={active === 'home' ? 'on' : undefined}>Home</a>
+<nav class="mast" aria-label="Site">
+  <span class="name"><a href="/">{SITE_TITLE}</a><small>{SITE_TAGLINE}</small></span>
+  <span class="links">
     <a href="/projects/" class={active === 'projects' ? 'on' : undefined}>Projects</a>
-    <a href="/about/" class={active === 'about' ? 'on' : undefined}>About</a>
+    <a href={GITHUB_URL}>GitHub</a>
+    <a href={LINKEDIN_URL}>LinkedIn</a>
+    <a href="#" class="mail">Email</a>
   </span>
 </nav>
-
-<style>
-  .identity { display: flex; flex-direction: column; gap: 5px; }
-
-  /* The name is optically nudged left. Large type carries side bearing inside
-     the glyph, so setting it flush to the container leaves it looking indented
-     against the smaller text below. */
-  .identity :global(.name) a { margin-left: 0; }
-
-  .contact { display: flex; gap: 16px; }
-  .contact a {
-    margin: 0;
-    font-size: 13px;
-    letter-spacing: .01em;
-    color: var(--dim);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-  }
-  .contact a:hover { color: var(--signal); border-bottom-color: var(--signal); }
-  .pages { flex-shrink: 0; }
-
-  @media (max-width: 600px) {
-    .contact { gap: 14px; }
-  }
-</style>

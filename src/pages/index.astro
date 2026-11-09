@@ -1,9 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
-import EcgStrip from '../components/EcgStrip.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Base from '../layouts/Base.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { GITHUB_URL, LINKEDIN_URL, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const projects = (await getCollection('projects')).sort(
   (a, b) => a.data.order - b.data.order,
@@ -11,32 +10,30 @@ const projects = (await getCollection('projects')).sort(
 ---
 
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION} active="home">
-  <p class="eyebrow">Clinical exercise physiologist &middot; Data scientist</p>
-  <h1>Reading hearts, then teaching machines to.</h1>
-  <p class="lede">
-    I supervise several hundred cardiac stress tests a year and interpret the
-    ECGs that come out of them. These projects are what happens when that
-    clinical judgment meets code.
-  </p>
+  <section class="sechead">
+    <p class="lab">Physiologist &middot; Data scientist &middot; Seattle</p>
+    <h1 class="display">Clinical physiology, measured. Data, put to work.</h1>
+    <p class="lede">
+      I am a physiologist and data scientist with five years in cardiovascular,
+      pulmonary and metabolic care, now building evaluation benchmarks, forecasting
+      models and data tools for clinical and financial decisions. The projects below
+      are public and reproducible; the rest of the story is on <a href={LINKEDIN_URL}>LinkedIn</a> and <a href={GITHUB_URL}>GitHub</a>.
+    </p>
+  </section>
 
-  <EcgStrip />
+  <div class="kpis" aria-label="At a glance">
+    <div class="kpi"><span class="lab">Clinical years</span><span class="v">5+</span><span class="s">cardiac, pulmonary and renal physiology in clinic and hospital</span></div>
+    <div class="kpi"><span class="lab">Focus</span><span class="v accent">ML &amp; stats</span><span class="s">machine learning, probability, data governance, visualization</span></div>
+    <div class="kpi"><span class="lab">Stack</span><span class="v">Python</span><span class="s">SQL, DuckDB, scikit-learn, R</span></div>
+    <div class="kpi"><span class="lab">Training</span><span class="v">M.S. &times; 2</span><span class="s">clinical exercise physiology; information management in data science (2027)</span></div>
+  </div>
 
-  <h2>Background</h2>
-  <p class="body">
-    I am an ACSM Certified Clinical Exercise Physiologist at UW Medicine, where I
-    direct exercise stress echocardiograms and treadmill tests for high-risk
-    cardiac patients. Day to day that means interpreting arrhythmias and
-    conduction abnormalities, screening for contraindications, and deciding in
-    real time whether a test continues.
-  </p>
-  <p class="body">
-    I hold a master's in clinical exercise physiology and am completing a
-    master's in information management with an emphasis in data science at the
-    University of Washington. The projects below are where clinical knowledge and
-    data science intersect. I understand these problems from the bedside, and I
-    am building the methods to solve them rigorously.
-  </p>
-
-  <h2>Projects</h2>
-  {projects.map((project) => <ProjectCard project={project} />)}
+  <section class="sechead">
+    <p class="lab">Projects</p>
+    <h2 class="display">Two questions from the clinic, answered with data.</h2>
+    <p class="lede">What insurers pay for cardiac care and what a clinic can forecast from it; and whether a model can read an ECG well enough to flag what needs a clinician.</p>
+  </section>
+  <div class="grid2">
+    {projects.map((project) => <ProjectCard project={project} />)}
+  </div>
 </Base>

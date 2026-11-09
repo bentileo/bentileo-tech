@@ -1,98 +1,108 @@
 ---
-title: 'The Price of a Heartbeat'
-summary: 'What US insurers pay hospitals for cardiac rehab and stress testing, and what more patients and more sessions are worth to a program.'
-detail: 'Hospitals now publish their negotiated rates. I matched those contracts across more than 1,700 US hospital price files to CDC Medicare data on who starts and finishes cardiac rehab. Commercial plans pay Washington hospitals the second-highest rate in the country, yet Washington enrolls and retains fewer patients than most of the US. The dashboard turns that gap into dollars for any state, and forecasts a program from its own monthly numbers.'
+title: 'Cardiac Clinic Benchmark & Revenue Forecasting'
+kicker: 'Health economics · Forecasting'
+summary: 'What commercial insurers pay US hospitals for cardiac rehab, stress testing and echocardiography, state by state against Medicare, and what a clinic can forecast from it.'
+detail: 'Hospitals now publish the rates they negotiate with every insurer. I processed the files of 2,700 US hospitals for nine cardiac codes, cleaned them against the published literature, and built a dashboard that benchmarks every state against Medicare, shows whether expensive states are expensive across the board, and lets a clinic compare its own contract and monthly volumes to its state and project the next twelve months.'
 status: 'live'
 statusLabel: 'Beta dashboard live'
-order: 2
-stack: 'Python · DuckDB · SQL · JavaScript'
-data: 'Hospital price transparency files (July 2026), CDC Atlas of Heart Disease and Stroke (Medicare, 2019–2020), CMS OPPS 2026'
-scope: 'United States, with Washington hospital detail · cardiac rehab and stress testing'
+order: 1
+stack: 'Python · DuckDB · SQL · JavaScript (SVG)'
+data: 'Hospital price-transparency files, 2,700+ hospitals, July 2026 snapshot · CMS OPPS 2026 · CDC Atlas of Heart Disease and Stroke'
+scope: 'United States, 50 states · cardiac rehab, exercise stress test, stress echo, nuclear stress (single and complete), resting echo'
 period: '2026'
 repo: 'https://github.com/bentileo/price-of-a-heartbeat'
 demo: '/projects/price-of-a-heartbeat/dashboard/'
 ---
 
-## Why this project
+## The question
 
-The ECG toolkit answers a clinical question with a model. This project is the
-other half of the work: taking messy public datasets, joining them, and
-answering a question a health system executive actually asks on a Monday morning.
+A cardiac service line lives on a handful of procedure codes: a rehab session,
+a treadmill test, a stress echo, a nuclear perfusion study, a resting
+echocardiogram. Medicare pays one national rate for each. Commercial insurers
+pay whatever the hospital negotiated, and until 2021 nobody outside that
+negotiation knew what that was. Since the Hospital Price Transparency Rule,
+every hospital publishes it.
 
-I have spent four years inside a cardiac service line. The questions asked in
-that room are financial as often as they are clinical. Which payers reimburse
-well for the services we run? Are our contracts below what comparable hospitals
-negotiated? Where is the gap between the care we deliver and the revenue it
-produces?
-
-I narrowed the work to the services a clinical exercise physiologist runs every
-day: cardiac rehab sessions and exercise, echo and nuclear stress testing.
+So: what do commercial insurers actually pay for these services, how does it
+vary by state, and what can a clinic do with that number?
 
 ## What the dashboard shows
 
-<div class="note"><strong>In Washington, the revenue gap is volume, not price.</strong>
-Commercial plans pay Washington hospitals well. Too few eligible patients start
-cardiac rehab, and too few finish it.</div>
+**Benchmark.** One tab per CPT code. A US map colors every state by its typical
+commercial rate (quintiles), with Medicare's rate as the reference. Click a
+state for its price, rank of 50, cash price, how many hospital files sit behind
+the figure, and where it falls on the national range.
 
-- **Price.** Commercial plans pay Washington hospitals a typical **$363** for a
-  monitored cardiac rehab session, second among states with enough price files
-  to compare (Oregon is first at $382). The typical US commercial rate is $166.
-  Medicare and Medicare Advantage pay about $132.
-- **Enrollment.** In Washington's typical county, 32% of eligible Medicare
-  patients start cardiac rehab, against 36% nationally.
-- **Retention.** 26% of Washington starters finish all 36 sessions, against 33%
-  nationally. The average starter attends 23.5.
-- **What it is worth.** For every 100 eligible patients, a Washington program
-  brings in roughly $150,000 a year at a typical payer mix. Matching a
-  top-quarter US county on enrollment and attendance adds roughly $105,000.
+**Compare.** A ranked bar chart of all 50 states against the Medicare line; a
+heatmap of every state's price-to-Medicare ratio across all services with a
+rank-correlation matrix answering whether a state that pays well for one
+cardiac service pays well for all (it does: the weakest pair of services still
+correlates above 0.5); and, for cardiac rehab, a quintile chart showing that the
+states paid the most enroll no more eligible patients than the states paid the
+least.
 
-The dashboard has three parts: a US map that compares states on price,
-enrollment, completion and unbilled sessions; a Washington view that places one
-hospital's contracts against its peers, insurer by insurer; and a program model
-that prices referral, enrollment and attendance improvements, or forecasts a
-program from its own monthly numbers.
+**Your clinic.** Pick a state and get the descriptive statistics: lowest,
+quartiles, median, highest, where the state ranks. Enter your own contracted
+rate, monthly volume and Medicare share to see your annual revenue beside the
+same volume at the state's typical rate and at Medicare. Load your monthly
+history and the page fits a trend-plus-seasonality model, checks it on six
+held-out months, and projects twelve months with an 80% range. Your numbers
+never leave the browser.
 
-## How it works
+## Headline numbers (US, median hospital, July 2026)
 
-<div class="flow">
-<b>Hospital price files</b> — 1,700+ US hospitals, billions of rows<br>↓<br>
-<b>Keep commercial fee-schedule contracts</b> — plan names classified, physician fees and unit errors dropped<br>↓<br>
-<b>Match facilities to CMS</b> — 94 Washington facilities reviewed by hand; ERs and clinics rejected<br>↓<br>
-<b>Benchmark</b> — insurer × service × hospital type, each price file counted once<br>↓<br>
-<b>Join CDC Medicare data</b> — who starts, who finishes, sessions attended, by county<br>↓<br>
-<b>Dashboard and program model</b>
-</div>
+| Service | CPT | Commercial | Medicare 2026 | Ratio |
+|---|---|---|---|---|
+| Cardiac rehab session | 93798 | $224 | $132 | 1.7× |
+| Exercise stress test | 93017 | $665 | $221 | 3.0× |
+| Stress echo, complete | 93351 | $1,235 | $558 | 2.2× |
+| Nuclear stress, single study | 78451 | $2,219 | $1,323 | 1.7× |
+| Nuclear stress, complete | 78452 | $2,830 | $1,323 | 2.1× |
+| Resting echo with Doppler | 93306 | $1,392 | $558 | 2.5× |
 
-Price files carry no certification number, so every Washington facility was
-matched to its CMS record by name and address and checked by hand. Twenty of 94
-were rejected: freestanding emergency rooms, clinics, a psychiatric hospital,
-and two locations that one rural district's file lists by mistake.
+One result surprises clinicians: hospitals price a stress echo and a resting
+echo almost identically, and the resting study is often higher. That is not a
+data error. Medicare pays all three echo codes the same APC rate, and
+commercial facility contracts follow the same grouping; the difference
+clinicians feel is in the professional fee and the separately billed stress
+test. Two independent studies of the same files (JASE 2023, JAHA 2025) report
+the same ordering.
 
-## What changed from the plan
+## Getting the data right
 
-The original plan multiplied rates by CMS outpatient volumes. That file is now
-published by payment group rather than procedure code, and it leaves cardiac
-rehab out entirely, so per-hospital volumes are not available for free. The
-dashboard measures volume a different way, per 100 eligible patients from CDC
-data, and lets a program bring its own monthly numbers for a forecast.
+The files are messy, and most of the work was deciding what a real negotiated
+facility rate looks like. The rules, applied identically to every state and
+code:
 
-## What the data cannot support
+- Use every contract row that publishes a dollar amount. Fee-schedule rows
+  alone miss percent-of-charge contracts, the largest group, which price about
+  twice as high; using only fee schedules biased every service low by a third.
+- Classify each contract from its payer and plan names and keep commercial
+  only; Medicare Advantage, Medicaid and government contracts out.
+- Drop rates under 50% of Medicare (physician fees published inside facility
+  files), rates at or above the hospital's own gross charge (list prices
+  pasted into the negotiated column), rates above six times Medicare when no
+  gross charge is published, and any hospital file that prices a lesser study
+  above the complete one.
+- One median per hospital file, then the median of files per state; a state
+  needs three clean files or it takes its census-division median and is
+  labeled estimated.
 
-- A published rate is a contract term, not proof of what was paid or that the
-  service is offered.
-- Rates are self-published and hospitals interpret the schema differently. Some
-  states' rates are implausibly low, which points at filing practice rather
-  than payment.
-- The CDC publishes county figures only, so state values are the typical
-  county, not a patient-weighted average. They cover Medicare fee-for-service
-  patients in 2019–2020.
-- This estimates revenue. It does not estimate cost, so it cannot speak to
-  margin.
+After cleaning, the national medians match the published literature within a
+few percent, which is the check I trust most.
 
-## Status
+## What the data cannot say
 
-Beta. Next: a second price snapshot to start a price time series, pulmonary
-rehab, and splitting results by hospital system.
+A published rate is a contract term, not a paid claim; denials and patient
+cost-sharing are invisible. The lake is a single snapshot, so there is no
+price trend yet. No public source reports stress-test volumes or cardiac rehab
+referrals, so the forecast runs on a clinic's own history. The CDC enrollment
+and completion figures are Medicare fee-for-service, 2019–2020, and predate
+the pandemic.
 
-*I work at UW Medicine. Every input is public data, and UW Medicine facilities
-are not excluded.*
+## Stack
+
+DuckDB over 77 GB of parquet for the extraction (resumable, four minutes a
+pass); Python for the cleaning rules and QA report; a single-file dashboard in
+hand-written SVG with no charting library, so it loads from a static host and
+works offline. The Python package, tests and scripts are in the repository.

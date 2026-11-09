@@ -4,7 +4,8 @@ summary: "A machine learning system that reads an ECG and flags what warrants a 
 detail: "A machine learning system that reads an ECG and flags what warrants a clinician's attention. Version one detects atrial fibrillation from rhythm irregularity, built end to end from raw PhysioNet waveforms to a deployed application. The roadmap extends to ischemic ST changes, conduction abnormalities, and ECGs captured as photographs rather than digital signals."
 status: 'live'
 statusLabel: 'v1 live at ecg.bentileo.tech'
-order: 1
+order: 2
+kicker: 'Machine learning · Signal processing'
 stack: 'Python · scikit-learn · Streamlit · Supabase · nginx'
 data: 'PTB-XL — 21,799 clinical ECGs, 18,869 patients'
 period: '2026'

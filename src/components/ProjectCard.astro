@@ -8,22 +8,25 @@ interface Props {
 }
 
 const { project, long = false } = Astro.props;
-const { title, summary, detail, status, statusLabel, stack, data, period, demo } =
+const { title, summary, detail, status, statusLabel, stack, data, period, demo, repo, kicker } =
   project.data;
 ---
 
-<article class="card">
+<article class="panel">
+  <span class="lab">{kicker ?? 'Project'}</span>
   <h3><a href={`/projects/${project.id}/`}>{title}</a></h3>
   <p>{long && detail ? detail : summary}</p>
-  <dl class="meta">
-    <dt>Status</dt>
-    <dd class={status === 'live' ? 'live' : undefined}>
-      {demo ? <a href={demo}>{statusLabel}</a> : statusLabel}
-    </dd>
-    <dt>Stack</dt>
-    <dd>{stack}</dd>
-    {data && (<><dt>Data</dt><dd>{data}</dd></>)}
-    {period && (<><dt>Period</dt><dd>{period}</dd></>)}
-  </dl>
-  {long && <a class="more" href={`/projects/${project.id}/`}>Read the write-up</a>}
+  <span class={`status ${status === 'live' ? 'live' : ''}`}><i></i>{demo ? <a href={demo}>{statusLabel}</a> : statusLabel}</span>
+  <table class="meta">
+    <tbody>
+      <tr><td>Stack</td><td>{stack}</td></tr>
+      {data && <tr><td>Data</td><td>{data}</td></tr>}
+      {period && <tr><td>Period</td><td>{period}</td></tr>}
+    </tbody>
+  </table>
+  <div class="actions">
+    <a class="btn primary" href={`/projects/${project.id}/`}>Read the write-up</a>
+    {demo && <a class="btn" href={demo}>Open</a>}
+    {repo && <a class="btn" href={repo}>Code</a>}
+  </div>
 </article>

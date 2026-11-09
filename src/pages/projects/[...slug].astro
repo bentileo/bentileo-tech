@@ -20,23 +20,24 @@ const { Content } = await render(project);
 
 <Base title={`${title} | ${SITE_TITLE}`} description={summary} active="projects">
   <a class="back" href="/projects/">&larr; Projects</a>
-  <h1 class="case">{title}</h1>
-  <p class="summary">{summary}</p>
+  <section class="sechead case">
+    <p class="lab">{project.data.kicker ?? 'Project'}</p>
+    <h1 class="display">{title}</h1>
+    <p class="lede">{summary}</p>
+  </section>
 
-  <dl class="metabox">
-    <dt>Status</dt>
-    <dd class={status === 'live' ? 'live' : undefined}>{statusLabel}</dd>
-    <dt>Stack</dt>
-    <dd>{stack}</dd>
-    {data && (<><dt>Data</dt><dd>{data}</dd></>)}
-    {scope && (<><dt>Scope</dt><dd>{scope}</dd></>)}
-    {period && (<><dt>Period</dt><dd>{period}</dd></>)}
-  </dl>
+  <div class="kpis metabox">
+    <div class="kpi"><span class="lab">Status</span><span class={`s big ${status === 'live' ? 'live' : ''}`}>{statusLabel}</span></div>
+    <div class="kpi"><span class="lab">Stack</span><span class="s big">{stack}</span></div>
+    {data && <div class="kpi"><span class="lab">Data</span><span class="s big">{data}</span></div>}
+    {scope && <div class="kpi"><span class="lab">Scope</span><span class="s big">{scope}</span></div>}
+    {period && <div class="kpi"><span class="lab">Period</span><span class="s big">{period}</span></div>}
+  </div>
 
   {(demo || repo) && (
     <div class="actions">
-      {demo && <a class="btn" href={demo}>Try the demo</a>}
-      {repo && <a class="btn ghost" href={repo}>Source code</a>}
+      {demo && <a class="btn primary" href={demo}>Open the dashboard</a>}
+      {repo && <a class="btn" href={repo}>Source code</a>}
     </div>
   )}
 
@@ -46,57 +47,19 @@ const { Content } = await render(project);
 </Base>
 
 <style is:global>
-  .back {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 13px;
-    color: var(--dim);
-    text-decoration: none;
-    display: inline-block;
-    margin: 44px 0 0;
-  }
-  h1.case { font-size: 40px; margin: 14px 0 0; }
-  .summary { font-size: 20px; color: var(--dim); margin: 18px 0 0; max-width: 55ch; }
-
-  .metabox {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 6px 20px;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 13px;
-    margin: 26px 0 0;
-    padding: 20px 0;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-  }
-  .metabox dt { color: var(--dim); letter-spacing: .04em; }
-  .metabox dd { margin: 0; }
-  .metabox dd.live { color: var(--signal); font-weight: 500; }
-
-  .actions {
-    display: flex;
-    gap: 10px;
-    margin: 22px 0 0;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 13.5px;
-  }
-  .btn {
-    padding: 9px 18px;
-    background: var(--signal);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 3px;
-  }
-  .btn.ghost {
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--rule);
-  }
+  .back { font-size: 13px; color: var(--muted); text-decoration: none; display: inline-block; margin: 28px 0 0; }
+  .back:hover { color: var(--ink); }
+  .sechead.case { margin-top: 10px; }
+  .metabox .kpi .s.big { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .metabox .kpi .s.live { color: var(--signal); font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; }
 
   /* --- rendered markdown --- */
+  .prose { max-width: 76ch; font-size: 16.5px; line-height: 1.65; }
   .prose h2 {
-    font-family: 'Source Serif 4', Georgia, serif;
+    font-family: var(--serif);
     font-size: 27px;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: none;
     letter-spacing: -.01em;
     color: var(--ink);
@@ -109,8 +72,8 @@ const { Content } = await render(project);
   .prose li { margin-bottom: 8px; }
 
   .prose .note {
-    border-left: 3px solid var(--signal);
-    background: var(--signal-soft);
+    border-left: 3px solid var(--blue);
+    background: var(--blue-soft);
     padding: 16px 20px;
     margin: 26px 0 0;
     font-size: 17px;
@@ -123,14 +86,14 @@ const { Content } = await render(project);
     color: var(--dim);
   }
   .prose .flow {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: var(--mono);
     font-size: 13px;
     line-height: 1.9;
     border: 1px solid var(--rule);
     padding: 20px 24px;
     margin: 26px 0 0;
     color: var(--dim);
-    background: rgba(255, 255, 255, .5);
+    background: var(--surface);
   }
   .prose .flow b { color: var(--ink); font-weight: 500; }
 
@@ -138,7 +101,7 @@ const { Content } = await render(project);
     width: 100%;
     border-collapse: collapse;
     margin: 24px 0 0;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--sans);
     font-size: 14.5px;
   }
   .prose th {
@@ -174,7 +137,7 @@ const { Content } = await render(project);
     border: 1px solid var(--rule);
   }
   .prose figcaption {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--sans);
     font-size: 12.5px;
     color: var(--dim);
     margin-top: 9px;

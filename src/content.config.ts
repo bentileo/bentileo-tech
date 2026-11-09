@@ -21,6 +21,8 @@ const projects = defineCollection({
     period: z.string().optional(),
     repo: z.string().optional(),
     demo: z.string().optional(),
+    // Small label above the card title, e.g. the project's domain.
+    kicker: z.string().optional(),
   }),
 });
 

@@ -11,24 +11,19 @@ const projects = (await getCollection('projects')).sort(
 
 <Base
   title={`Projects | ${SITE_TITLE}`}
-  description="Machine learning and analytics projects in cardiac care."
+  description="Data science projects in cardiac care: price benchmarks, revenue forecasting and ECG screening."
   active="projects"
 >
-  <p class="eyebrow">Work</p>
-  <h1>Projects</h1>
-  <p class="lede">
-    Each project has a write-up covering the problem, the data, the decisions I
-    made and why, and what I would do differently. Status reflects what is built,
-    not what is planned.
-  </p>
-
-  {projects.map((project) => <ProjectCard project={project} long />)}
-
-  <h2>What is next</h2>
-  <p class="body">
-    The ECG toolkit is at v1 and reads rhythm only. The next version adds image
-    digitization, so a photograph of a paper ECG can be interpreted, along with
-    morphology features that extend detection beyond rhythm to ischemia and
-    conduction disease. Both are described in the write-up.
-  </p>
+  <section class="sechead">
+    <p class="lab">Projects</p>
+    <h1 class="display">Built in the open, from public data.</h1>
+    <p class="lede">
+      Each project has a write-up covering the problem, the data, the decisions and
+      their reasons, and what the data cannot say. Status reflects what is built,
+      not what is planned.
+    </p>
+  </section>
+  <div class="grid2">
+    {projects.map((project) => <ProjectCard project={project} long />)}
+  </div>
 </Base>
